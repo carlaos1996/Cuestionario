@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cuestionario Checklist Operativo</title>
+<meta name="description" content="Repaso y cuestionario del checklist operativo: metas de la sede, PPP, PAIS, ATP, PRIME y flujo de intervención.">
+<meta property="og:title" content="Cuestionario · Checklist Operativo">
+<meta property="og:description" content="Repasa lo importante y responde: metas, PPP, PAIS, ATP, PRIME y flujo de intervención.">
+<meta name="theme-color" content="#0B0B0B">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpolygon points='32,2 59,17 59,47 32,62 5,47 5,17' fill='%23FFB800'/%3E%3Cpath d='M20 33l8 8 16-17' stroke='%23000' stroke-width='6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;1,800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --amarillo: #FFB800;
+    --amarillo-claro: #FFD15C;
+    --negro: #0B0B0B;
+    --panel: #151515;
+    --panel-2: #1E1E1E;
+    --borde: #2C2C2C;
+    --texto: #F5F5F5;
+    --suave: #B0B0B0;
+    --ok: #22C55E;
+    --ok-bg: rgba(34, 197, 94, .13);
+    --mal: #F05252;
+    --mal-bg: rgba(240, 82, 82, .13);
+    --radio: 16px;
+    --display: "Barlow Condensed", "Arial Narrow", sans-serif;
+    --cuerpo: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: var(--cuerpo);
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--texto);
+    background:
+      radial-gradient(900px 420px at 50% -180px, rgba(255, 184, 0, .20), transparent 70%),
+      var(--negro);
+    background-attachment: fixed;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  button, input { font: inherit; }
+  [hidden] { display: none !important; }
+
+  .contenedor { max-width: 680px; margin: 0 auto; padding: 0 16px; }
+
+  /* ---------- Encabezado ---------- */
+  .cabecera {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(11, 11, 11, .88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--borde);
+  }
+  .cabecera .contenedor { display: flex; align-items: center; justify-content: space-between; height: 56px; gap: 12px; }
+  .marca { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .marca-sf { font-family: var(--display); font-weight: 800; font-style: italic; font-size: 22px; letter-spacing: .5px; color: var(--amarillo); white-space: nowrap; }
+  .marca-sep { width: 1px; height: 20px; background: var(--borde); }
+  .marca-txt { font-size: 13px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--suave); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  @media (max-width: 400px) {
+    .marca-sep, .marca-txt { display: none; }
+  }
+  .link-cab {
+    background: none; border: 1px solid var(--borde); color: var(--texto);
+    padding: 6px 12px; border-radius: 999px; font-size: 14px; cursor: pointer; white-space: nowrap;
+  }
+  .link-cab:hover { border-color: var(--amarillo); color: var(--amarillo); }
+
+  /* ---------- Botones ---------- */
+  .btn {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; padding: 16px 20px; border-radius: 14px; border: 2px solid transparent;
+    font-family: var(--display); font-weight: 800; font-size: 21px; letter-spacing: .6px; text-transform: uppercase;
+    cursor: pointer; transition: transform .08s ease, background .15s ease, border-color .15s ease;
+  }
+  .btn:active { transform: scale(.98); }
+  .btn-primario { background: var(--amarillo); color: #000; }
+  .btn-primario:hover { background: var(--amarillo-claro); }
+  .btn-secundario { background: transparent; color: var(--texto); border-color: var(--borde); }
+  .btn-secundario:hover { border-color: var(--amarillo); color: var(--amarillo); }
+  .btn-paso { font-family: var(--cuerpo); font-size: 12px; font-weight: 700; letter-spacing: 1px; padding: 3px 8px; border-radius: 6px; background: rgba(0,0,0,.18); }
+  .btn-secundario .btn-paso { background: var(--panel-2); color: var(--suave); }
+  :focus-visible { outline: 3px solid var(--amarillo); outline-offset: 2px; }
+
+  /* ---------- Inicio ---------- */
+  .hero { padding: 40px 0 8px; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase;
+    color: #000; background: var(--amarillo); padding: 5px 10px; border-radius: 6px;
+  }
+  .hero h1 {
+    font-family: var(--display); font-weight: 800; font-style: italic; text-transform: uppercase;
+    font-size: clamp(42px, 11vw, 64px); line-height: .95; margin: 16px 0 12px; letter-spacing: .5px;
+  }
+  .hero h1 span { color: var(--amarillo); }
+  .hero p { color: var(--suave); margin: 0 0 22px; font-size: 18px; }
+  .temas { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 26px; padding: 0; list-style: none; }
+  .temas li { border: 1px solid var(--borde); background: var(--panel); padding: 6px 12px; border-radius: 999px; font-size: 14px; font-weight: 600; }
+  .campo { margin-bottom: 18px; }
+  .campo label { display: block; font-weight: 600; margin-bottom: 8px; }
+  .campo input {
+    width: 100%; padding: 15px 16px; border-radius: 12px; border: 2px solid var(--borde);
+    background: var(--panel); color: var(--texto); font-size: 18px;
+  }
+  .campo input:focus { outline: none; border-color: var(--amarillo); }
+  .campo .error { color: var(--mal); font-size: 14px; margin-top: 6px; }
+  .acciones { display: grid; gap: 12px; }
+  .nota { color: var(--suave); font-size: 14px; text-align: center; margin: 14px 0 0; }
+
+  /* ---------- Repaso ---------- */
+  .indice {
+    position: sticky; top: 56px; z-index: 10;
+    background: rgba(11, 11, 11, .92);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--borde);
+  }
+  .indice .contenedor { display: flex; gap: 8px; overflow-x: auto; padding-top: 10px; padding-bottom: 10px; scrollbar-width: none; }
+  .indice .contenedor::-webkit-scrollbar { display: none; }
+  .indice a {
+    flex-shrink: 0; text-decoration: none; color: var(--texto); font-size: 14px; font-weight: 600;
+    padding: 6px 12px; border-radius: 999px; border: 1px solid var(--borde); background: var(--panel);
+  }
+  .indice a:hover { border-color: var(--amarillo); color: var(--amarillo); }
+
+  .intro-repaso { padding: 28px 0 4px; }
+  .intro-repaso h1 { font-family: var(--display); font-weight: 800; font-style: italic; text-transform: uppercase; font-size: 40px; line-height: 1; margin: 12px 0 8px; }
+  .intro-repaso p { color: var(--suave); margin: 0; }
+
+  .bloque {
+    background: var(--panel); border: 1px solid var(--borde); border-radius: var(--radio);
+    padding: 22px 18px; margin: 18px 0; scroll-margin-top: 120px;
+  }
+  .bloque-cab { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .sigla {
+    font-family: var(--display); font-weight: 800; font-size: 22px; letter-spacing: 1px;
+    background: #000; color: #fff; border: 2px solid var(--amarillo); padding: 2px 10px; border-radius: 8px; flex-shrink: 0;
+  }
+  .bloque h2 { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 26px; line-height: 1.05; margin: 0; letter-spacing: .4px; }
+  .bloque h3 { font-family: var(--display); font-weight: 700; text-transform: uppercase; font-size: 19px; letter-spacing: .8px; color: var(--amarillo); margin: 22px 0 10px; }
+  .def {
+    margin: 0; padding: 14px 16px; border-left: 4px solid var(--amarillo); background: var(--panel-2);
+    border-radius: 0 12px 12px 0; font-size: 17px;
+  }
+  .def strong, .lista strong, .paso strong { color: var(--amarillo); font-weight: 700; }
+  .etiqueta-pregunta { font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--suave); margin: 0 0 6px; }
+
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .stats-4 { grid-template-columns: repeat(2, 1fr); }
+  .stat { background: var(--panel-2); border: 1px solid var(--borde); border-radius: 12px; padding: 14px 12px; }
+  .stat-num { display: block; font-family: var(--display); font-weight: 800; font-size: 34px; line-height: 1; color: var(--amarillo); }
+  .stat-lbl { display: block; font-size: 13.5px; color: var(--suave); margin-top: 6px; line-height: 1.3; }
+  @media (max-width: 440px) {
+    .stats { grid-template-columns: 1fr; }
+    .stats-4 { grid-template-columns: repeat(2, 1fr); }
+    .stats .stat { display: flex; align-items: center; gap: 14px; }
+    .stats .stat-lbl { margin-top: 0; }
+    .stats-4 .stat { display: block; }
+    .stats-4 .stat-lbl { margin-top: 6px; }
+  }
+
+  .letras { display: grid; gap: 10px; margin-top: 14px; }
+  .letra { display: flex; gap: 14px; align-items: center; background: var(--panel-2); border-radius: 12px; padding: 12px; }
+  .hex {
+    width: 50px; height: 56px; flex-shrink: 0; display: grid; place-items: center;
+    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+    background: var(--amarillo); color: #000; font-family: var(--display); font-weight: 800; font-size: 30px;
+  }
+  .letra-txt b { display: block; font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 19px; letter-spacing: .5px; }
+  .letra-txt span { color: var(--suave); font-size: 15.5px; line-height: 1.4; display: block; }
+
+  .lista { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+  .lista li { background: var(--panel-2); border-radius: 10px; padding: 10px 12px; font-size: 15.5px; }
+
+  .pasos { display: grid; gap: 10px; counter-reset: paso; }
+  .paso { display: flex; gap: 14px; align-items: flex-start; background: var(--panel-2); border-radius: 12px; padding: 12px; }
+  .paso-num {
+    width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0; display: grid; place-items: center;
+    border: 3px solid var(--amarillo); font-family: var(--display); font-weight: 800; font-size: 20px;
+  }
+  .paso-txt b { display: block; font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 19px; letter-spacing: .5px; }
+  .paso-txt span { color: var(--suave); font-size: 15.5px; }
+  .lema { text-align: center; font-size: 12.5px; font-weight: 700; letter-spacing: 1.6px; color: var(--suave); margin: 14px 0 0; text-transform: uppercase; }
+
+  .barra-inferior {
+    position: sticky; bottom: 0; z-index: 10; padding: 14px 0 calc(14px + env(safe-area-inset-bottom));
+    background: linear-gradient(to top, var(--negro) 70%, rgba(11, 11, 11, 0));
+  }
+
+  /* ---------- Cuestionario ---------- */
+  .quiz-top { padding: 22px 0 6px; }
+  .quiz-meta { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 14px; color: var(--suave); margin-bottom: 10px; }
+  .quiz-meta .seccion { color: #000; background: var(--amarillo); font-weight: 700; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; padding: 4px 9px; border-radius: 6px; }
+  .progreso { height: 8px; background: var(--panel-2); border-radius: 999px; overflow: hidden; }
+  .progreso div { height: 100%; width: 0; background: var(--amarillo); border-radius: 999px; transition: width .3s ease; }
+  .pregunta {
+    font-family: var(--display); font-weight: 700; font-size: clamp(26px, 6.4vw, 32px); line-height: 1.15;
+    margin: 22px 0 18px; letter-spacing: .2px;
+  }
+  .opciones { display: grid; gap: 10px; }
+  .opcion {
+    display: flex; align-items: flex-start; gap: 12px; text-align: left; width: 100%;
+    padding: 14px 14px; border-radius: 14px; border: 2px solid var(--borde);
+    background: var(--panel); color: var(--texto); font-size: 16.5px; line-height: 1.4; cursor: pointer;
+    transition: border-color .15s ease, background .15s ease, opacity .15s ease;
+  }
+  .opcion:hover:not(:disabled) { border-color: var(--amarillo); }
+  .opcion .letra-op {
+    width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0; display: grid; place-items: center;
+    background: var(--panel-2); border: 1px solid var(--borde); font-weight: 700; font-size: 14px;
+  }
+  .opcion:disabled { cursor: default; opacity: .5; }
+  .opcion.correcta { border-color: var(--ok); background: var(--ok-bg); opacity: 1; }
+  .opcion.correcta .letra-op { background: var(--ok); border-color: var(--ok); color: #000; }
+  .opcion.incorrecta { border-color: var(--mal); background: var(--mal-bg); opacity: 1; }
+  .opcion.incorrecta .letra-op { background: var(--mal); border-color: var(--mal); color: #000; }
+
+  .feedback { margin-top: 16px; padding: 14px 16px; border-radius: 14px; border: 1px solid; }
+  .feedback.bien { border-color: var(--ok); background: var(--ok-bg); }
+  .feedback.mal { border-color: var(--mal); background: var(--mal-bg); }
+  .feedback-titulo { font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 22px; letter-spacing: .5px; margin: 0 0 4px; }
+  .feedback.bien .feedback-titulo { color: var(--ok); }
+  .feedback.mal .feedback-titulo { color: var(--mal); }
+  .feedback p { margin: 4px 0 0; font-size: 15.5px; }
+  .feedback .dato { color: var(--suave); }
+  #btn-siguiente { margin-top: 16px; }
+
+  /* ---------- Resultado ---------- */
+  .resultado-top { text-align: center; padding: 34px 0 6px; }
+  .anillo {
+    --p: 0; width: 180px; height: 180px; margin: 18px auto 14px; border-radius: 50%;
+    background: conic-gradient(var(--amarillo) calc(var(--p) * 1%), var(--panel-2) 0);
+    display: grid; place-items: center;
+  }
+  .anillo-in { width: 146px; height: 146px; border-radius: 50%; background: var(--negro); display: grid; place-items: center; text-align: center; }
+  .anillo-num { font-family: var(--display); font-weight: 800; font-size: 50px; line-height: 1; }
+  .anillo-sub { color: var(--suave); font-size: 14px; }
+  .resultado-top h1 { font-family: var(--display); font-weight: 800; font-style: italic; text-transform: uppercase; font-size: 36px; line-height: 1.05; margin: 0 0 6px; }
+  .resultado-top p { color: var(--suave); margin: 0; }
+  .secciones-res { display: grid; gap: 12px; }
+  .fila-sec { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; font-size: 15px; }
+  .fila-sec .barra { grid-column: 1 / -1; height: 8px; background: var(--panel-2); border-radius: 999px; overflow: hidden; }
+  .fila-sec .barra div { height: 100%; border-radius: 999px; background: var(--amarillo); }
+  .fila-sec .barra div.completa { background: var(--ok); }
+  .fila-sec span:last-of-type { color: var(--suave); font-variant-numeric: tabular-nums; }
+  .repasar { display: grid; gap: 10px; }
+  .repasar li { list-style: none; background: var(--panel-2); border-radius: 12px; padding: 12px 14px; font-size: 15px; }
+  .repasar li b { display: block; margin-bottom: 4px; }
+  .repasar li span { color: var(--ok); }
+  .repasar { padding: 0; margin: 0; }
+
+  .pie { text-align: center; color: #6F6F6F; font-size: 13px; padding: 28px 0 36px; }
+</style>
+</head>
+<body>
+
+<header class="cabecera">
+  <div class="contenedor">
+    <div class="marca">
+      <span class="marca-sf">SMART FIT</span>
+      <span class="marca-sep" aria-hidden="true"></span>
+      <span class="marca-txt">Checklist operativo</span>
+    </div>
+    <button class="link-cab" id="cab-repaso" type="button">Repaso</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= INICIO ================= -->
+  <section id="inicio" class="pantalla">
+    <div class="contenedor">
+      <div class="hero">
+        <span class="chip">Checklist operativo</span>
+        <h1>Lo importante, <span>claro y rápido</span></h1>
+        <p>Primero repasa los conceptos clave y después responde el cuestionario. Al final ves tu resultado y lo puedes enviar.</p>
+        <ul class="temas">
+          <li>Metas</li><li>PPP</li><li>PAIS</li><li>ATP</li><li>PRIME</li><li>Flujo de intervención</li>
+        </ul>
+        <div class="campo">
+          <label for="nombre">Tu nombre</label>
+          <input id="nombre" type="text" autocomplete="name" placeholder="Ej.: María López" maxlength="60">
+          <div class="error" id="error-nombre" hidden>Escribe tu nombre para empezar el cuestionario.</div>
+        </div>
+        <div class="acciones">
+          <button class="btn btn-primario" id="btn-repasar" type="button"><span class="btn-paso">Paso 1</span> Repasar lo importante</button>
+          <button class="btn btn-secundario" id="btn-ir-quiz" type="button"><span class="btn-paso">Paso 2</span> Ir al cuestionario</button>
+        </div>
+        <p class="nota"><span id="total-preguntas"></span> preguntas · 5 a 7 minutos · respuesta al instante</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= REPASO ================= -->
+  <section id="repaso" class="pantalla" hidden>
+    <nav class="indice" aria-label="Temas del repaso">
+      <div class="contenedor">
+        <a href="#r-metas">Metas</a>
+        <a href="#r-ppp">PPP</a>
+        <a href="#r-pais">PAIS</a>
+        <a href="#r-atp">ATP</a>
+        <a href="#r-prime">PRIME</a>
+        <a href="#r-flujo">Flujo</a>
+      </div>
+    </nav>
+
+    <div class="contenedor">
+      <div class="intro-repaso">
+        <span class="chip">Paso 1 · Repaso</span>
+        <h1>Lo que todos debemos saber</h1>
+        <p>Lo marcado en amarillo es lo que más se pregunta.</p>
+      </div>
+
+      <!-- Metas -->
+      <article class="bloque" id="r-metas">
+        <div class="bloque-cab"><h2>Metas de la sede</h2></div>
+        <div class="stats">
+          <div class="stat"><span class="stat-num">80.57</span><span class="stat-lbl">NPS trimestral</span></div>
+          <div class="stat"><span class="stat-num">1.600</span><span class="stat-lbl">Usuarios activos para noviembre</span></div>
+          <div class="stat"><span class="stat-num">43.588</span><span class="stat-lbl">Facturación para noviembre</span></div>
+        </div>
+        <h3>Metas técnicas</h3>
+        <div class="stats stats-4">
+          <div class="stat"><span class="stat-num">80%</span><span class="stat-lbl">Acceso a la app: ventas semanales que descargaron la app</span></div>
+          <div class="stat"><span class="stat-num">20%</span><span class="stat-lbl">Cantidad de rutinas enviadas vs. activos del mes</span></div>
+          <div class="stat"><span class="stat-num">70%</span><span class="stat-lbl">Aforo de productos</span></div>
+          <div class="stat"><span class="stat-num">90%</span><span class="stat-lbl">PPP</span></div>
+        </div>
+      </article>
+
+      <!-- PPP -->
+      <article class="bloque" id="r-ppp">
+        <div class="bloque-cab"><span class="sigla">P.P.P</span><h2>Premisas de Prescripción de PAIS</h2></div>
+        <p class="etiqueta-pregunta">¿Qué son las Premisas de Prescripción de PAIS?</p>
+        <blockquote class="def">Estrategia de prescripción basada en <strong>investigaciones científicas</strong>, adecuada a los <strong>niveles de los usuarios</strong>, creada también para <strong>ayudar a la operación</strong>, para <strong>no generar saturación</strong>.</blockquote>
+      </article>
+
+      <!-- PAIS -->
+      <article class="bloque" id="r-pais">
+        <div class="bloque-cab"><span class="sigla">PAIS</span><h2>Prescripción · Abordaje · Intervención · Sectorización</h2></div>
+        <p class="etiqueta-pregunta">¿Qué es PAIS?</p>
+        <blockquote class="def"><strong>Estrategia</strong> para impactar en los principales puntos de la <strong>experiencia</strong> del entreno en <strong>Smart Fit</strong>.</blockquote>
+        <div class="letras">
+          <div class="letra"><div class="hex">P</div><div class="letra-txt"><b>Prescripción</b><span>Prescripción por “perfil de persona” con tecnología como forma de entrega.</span></div></div>
+          <div class="letra"><div class="hex">A</div><div class="letra-txt"><b>Abordaje</b><span>Momento de mayor impacto para la retención y fidelización.</span></div></div>
+          <div class="letra"><div class="hex">I</div><div class="letra-txt"><b>Intervención</b><span>Gestión de pista e intervención en la experiencia del usuario.</span></div></div>
+          <div class="letra"><div class="hex">S</div><div class="letra-txt"><b>Sectorización</b><span>Posicionamiento estratégico: observar y ser visto por el mayor número de usuarios.</span></div></div>
+        </div>
+      </article>
+
+      <!-- ATP -->
+      <article class="bloque" id="r-atp">
+        <div class="bloque-cab"><span class="sigla">A.T.P</span><h2>Abordaje Técnico de PAIS</h2></div>
+        <p class="etiqueta-pregunta">¿Qué es ATP?</p>
+        <blockquote class="def">Método <strong>técnico/operativo</strong> que tiene como objetivo mejorar la <strong>experiencia del usuario</strong>, a través de un <strong>abordaje técnico</strong>, teniendo al <strong>profesor como protagonista</strong>.</blockquote>
+        <h3>Los 4 puntos de apoyo</h3>
+        <div class="letras">
+          <div class="letra"><div class="hex">1</div><div class="letra-txt"><b>Ajuste</b><span>Posicionamiento de las articulaciones, bancos o máquinas <strong>previo a la ejecución</strong> (todo lo de antes).</span></div></div>
+          <div class="letra"><div class="hex">2</div><div class="letra-txt"><b>Puntos de atención</b><span>Corrección del movimiento de las articulaciones <strong>durante el ejercicio</strong>.</span></div></div>
+          <div class="letra"><div class="hex">3</div><div class="letra-txt"><b>Performance</b><span>Optimización del ejercicio para obtener un <strong>mejor resultado</strong> en el grupo muscular.</span></div></div>
+          <div class="letra"><div class="hex">4</div><div class="letra-txt"><b>Grado de complejidad</b><span>Lo define la <strong>dificultad del ejercicio</strong> (por ejemplo, que intervengan más articulaciones).</span></div></div>
+        </div>
+      </article>
+
+      <!-- PRIME -->
+      <article class="bloque" id="r-prime">
+        <div class="bloque-cab"><span class="sigla">PRIME</span><h2>Protocolo de clase</h2></div>
+        <p class="etiqueta-pregunta">¿Qué es PRIME?</p>
+        <blockquote class="def">PRIME es nuestra <strong>metodología para interactuar con los usuarios</strong>: recibir con amabilidad, instruir, motivar durante el proceso, encantar empatizando y mejorando su experiencia.</blockquote>
+        <div class="letras">
+          <div class="letra"><div class="hex">P</div><div class="letra-txt"><b>Preparar</b><span>Previo: revisar el entrenamiento, invitar personalmente, preparar lugares.</span></div></div>
+          <div class="letra"><div class="hex">R</div><div class="letra-txt"><b>Recibir</b><span>Check in: recibir con amabilidad, presentarse, preguntar por lesiones.</span></div></div>
+          <div class="letra"><div class="hex">I</div><div class="letra-txt"><b>Instruir</b><span>Calentamiento y parte principal: corregir la ejecución, dar variantes.</span></div></div>
+          <div class="letra"><div class="hex">M</div><div class="letra-txt"><b>Motivar</b><span>Motivar durante todo el proceso.</span></div></div>
+          <div class="letra"><div class="hex">E</div><div class="letra-txt"><b>Empatizar</b><span>Encantar, empatizando y mejorando su experiencia.</span></div></div>
+        </div>
+        <h3>Momentos de la clase</h3>
+        <ul class="lista">
+          <li><strong>1. Previo</strong> (Preparar)</li>
+          <li><strong>2. Check in</strong> (Recibir · Empatizar)</li>
+          <li><strong>3. Calentamiento</strong> (Empatizar · Instruir)</li>
+          <li><strong>4. Parte principal</strong> (Instruir · Motivar · Empatizar)</li>
+          <li><strong>5. Check out</strong> (Empatizar): divulgar la encuesta de satisfacción NPS, <strong>sin pedir calificación</strong>.</li>
+        </ul>
+      </article>
+
+      <!-- Flujo -->
+      <article class="bloque" id="r-flujo">
+        <div class="bloque-cab"><h2>Flujo de intervención</h2></div>
+        <div class="pasos">
+          <div class="paso"><div class="paso-num">01</div><div class="paso-txt"><b>Observación</b><span>Identificar la situación.</span></div></div>
+          <div class="paso"><div class="paso-num">02</div><div class="paso-txt"><b>Interacción</b><span>Establecer contacto.</span></div></div>
+          <div class="paso"><div class="paso-num">03</div><div class="paso-txt"><b>Recomendación</b><span>Resolución: resolvemos la situación.</span></div></div>
+          <div class="paso"><div class="paso-num">04</div><div class="paso-txt"><b>Registro</b><span>Registrar en el sistema y comunicar al líder de sede lo ocurrido.</span></div></div>
+        </div>
+        <p class="lema">Conectamos · Orientamos · Resolvemos · Mejoramos</p>
+      </article>
+
+      <div class="barra-inferior">
+        <button class="btn btn-primario" id="btn-quiz-desde-repaso" type="button">Ya repasé · Empezar cuestionario</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CUESTIONARIO ================= -->
+  <section id="quiz" class="pantalla" hidden>
+    <div class="contenedor">
+      <div class="quiz-top">
+        <div class="quiz-meta">
+          <span id="q-contador">Pregunta 1 de 1</span>
+          <span class="seccion" id="q-seccion">Metas</span>
+        </div>
+        <div class="progreso" role="progressbar" aria-label="Progreso del cuestionario" aria-valuemin="0" aria-valuemax="100"><div id="q-barra"></div></div>
+      </div>
+      <h2 class="pregunta" id="q-texto"></h2>
+      <div class="opciones" id="q-opciones"></div>
+      <div class="feedback" id="q-feedback" aria-live="polite" hidden></div>
+      <button class="btn btn-primario" id="btn-siguiente" type="button" hidden>Siguiente</button>
+      <div style="height: 32px"></div>
+    </div>
+  </section>
+
+  <!-- ================= RESULTADO ================= -->
+  <section id="resultado" class="pantalla" hidden>
+    <div class="contenedor">
+      <div class="resultado-top">
+        <span class="chip" id="r-nombre">Resultado</span>
+        <div class="anillo" id="r-anillo"><div class="anillo-in"><div><div class="anillo-num" id="r-pct">0%</div><div class="anillo-sub" id="r-aciertos">0 de 0</div></div></div></div>
+        <h1 id="r-titulo"></h1>
+        <p id="r-mensaje"></p>
+      </div>
+
+      <article class="bloque">
+        <div class="bloque-cab"><h2>Por tema</h2></div>
+        <div class="secciones-res" id="r-secciones"></div>
+      </article>
+
+      <article class="bloque" id="r-bloque-repasar">
+        <div class="bloque-cab"><h2>Para reforzar</h2></div>
+        <ul class="repasar" id="r-repasar"></ul>
+      </article>
+
+      <div class="acciones">
+        <button class="btn btn-primario" id="btn-compartir" type="button">Enviar por WhatsApp</button>
+        <button class="btn btn-secundario" id="btn-repetir" type="button">Volver a intentar</button>
+        <button class="btn btn-secundario" id="btn-volver-repaso" type="button">Ver el repaso</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pie">Material interno de repaso para el equipo de la sede.</footer>
+
+<script>
+  // Cada pregunta: s = tema, q = pregunta, ok = respuesta correcta, mal = opciones incorrectas, dato = refuerzo opcional.
+  const DEF_PAIS = {
+    P: "Prescripción por “perfil de persona” con tecnología como forma de entrega.",
+    A: "Momento de mayor impacto para la retención y fidelización.",
+    I: "Gestión de pista e intervención en la experiencia del usuario.",
+    S: "Posicionamiento estratégico: observar y ser visto por el mayor número de usuarios."
+  };
+  const DEF_ATP = {
+    ajuste: "Posicionamiento de las articulaciones, bancos o máquinas previo a la ejecución (todo lo de antes).",
+    atencion: "Corrección del movimiento de las articulaciones durante el ejercicio.",
+    performance: "Optimización del ejercicio para obtener un mejor resultado en el grupo muscular.",
+    complejidad: "Lo define la dificultad del ejercicio (por ejemplo, que intervengan más articulaciones)."
+  };
+  const sin = (obj, clave) => Object.keys(obj).filter(k => k !== clave).map(k => obj[k]);
+
+  const PREGUNTAS = [
+    // ---------- Metas de la sede ----------
+    { s: "Metas de la sede", q: "¿Cuál es la meta de NPS trimestral de la sede?",
+      ok: "80.57", mal: ["75.80", "85.70", "78.57"] },
+    { s: "Metas de la sede", q: "¿Cuál es la meta de usuarios activos para noviembre?",
+      ok: "1.600", mal: ["1.200", "1.450", "1.800"] },
+    { s: "Metas de la sede", q: "¿Cuál es la meta de facturación para noviembre?",
+      ok: "43.588", mal: ["38.450", "45.885", "41.300"] },
+
+    // ---------- Metas técnicas ----------
+    { s: "Metas técnicas", q: "Meta técnica de acceso a la app: ¿qué porcentaje de las ventas semanales debe descargar la app?",
+      ok: "80%", mal: ["50%", "70%", "90%"] },
+    { s: "Metas técnicas", q: "Meta técnica: ¿cuál es la meta de rutinas enviadas vs. activos del mes?",
+      ok: "20%", mal: ["10%", "30%", "50%"] },
+    { s: "Metas técnicas", q: "Meta técnica: ¿cuál es la meta de aforo de productos?",
+      ok: "70%", mal: ["50%", "80%", "90%"] },
+    { s: "Metas técnicas", q: "Meta técnica: ¿cuál es la meta de PPP?",
+      ok: "90%", mal: ["70%", "80%", "100%"] },
+
+    // ---------- PPP ----------
+    { s: "PPP", q: "¿Qué significa PPP?",
+      ok: "Premisas de Prescripción de PAIS",
+      mal: ["Plan de Prescripción Personal", "Protocolo de Prescripción y Performance", "Programa de Prescripción por Perfil"] },
+    { s: "PPP", q: "¿Qué son las Premisas de Prescripción de PAIS?",
+      ok: "Estrategia de prescripción basada en investigaciones científicas, adecuada a los niveles de los usuarios, creada también para ayudar a la operación, para no generar saturación.",
+      mal: [
+        "Estrategia de ventas basada en promociones mensuales, adecuada a los planes de los usuarios, creada para aumentar la facturación de la sede.",
+        "Lista de ejercicios fijos que todos los usuarios deben hacer igual, sin importar su nivel, creada para ordenar la sala de musculación.",
+        "Reglas de horario para que los profesores roten por la pista, creadas para atender a más usuarios durante la hora pico."
+      ],
+      dato: "Palabras clave: investigaciones científicas · niveles de los usuarios · ayudar a la operación · no generar saturación." },
+
+    // ---------- PAIS ----------
+    { s: "PAIS", q: "¿Qué es PAIS?",
+      ok: "Estrategia para impactar en los principales puntos de la experiencia del entreno en Smart Fit.",
+      mal: [
+        "Sistema para registrar la asistencia y el horario de los usuarios en la sede.",
+        "Programa de promociones para aumentar los usuarios activos del mes.",
+        "Manual de limpieza y mantenimiento de las máquinas de la pista."
+      ] },
+    { s: "PAIS", q: "¿Qué significa P.A.I.S.?",
+      ok: "Prescripción · Abordaje · Intervención · Sectorización",
+      mal: ["Planificación · Atención · Instrucción · Seguimiento", "Prescripción · Asistencia · Interacción · Servicio", "Perfil · Ajuste · Intensidad · Series"] },
+    { s: "PAIS", q: "La P de PAIS es Prescripción. ¿Qué es?", ok: DEF_PAIS.P, mal: sin(DEF_PAIS, "P") },
+    { s: "PAIS", q: "La A de PAIS es Abordaje. ¿Qué es?", ok: DEF_PAIS.A, mal: sin(DEF_PAIS, "A") },
+    { s: "PAIS", q: "La I de PAIS es Intervención. ¿Qué es?", ok: DEF_PAIS.I, mal: sin(DEF_PAIS, "I") },
+    { s: "PAIS", q: "La S de PAIS es Sectorización. ¿Qué es?", ok: DEF_PAIS.S, mal: sin(DEF_PAIS, "S") },
+
+    // ---------- ATP ----------
+    { s: "ATP", q: "¿Qué significa ATP?",
+      ok: "Abordaje Técnico de PAIS",
+      mal: ["Atención Total al Profesor", "Asistencia Técnica Personalizada", "Ajuste, Técnica y Performance"] },
+    { s: "ATP", q: "¿Qué es ATP?",
+      ok: "Método técnico/operativo que tiene como objetivo mejorar la experiencia del usuario a través de un abordaje técnico, teniendo al profesor como protagonista.",
+      mal: [
+        "Método comercial que tiene como objetivo vender más planes a través de promociones, teniendo al recepcionista como protagonista.",
+        "Método de evaluación física que tiene como objetivo medir el peso de los usuarios, teniendo al líder de sede como protagonista.",
+        "Método de mantenimiento que tiene como objetivo cuidar las máquinas a través de revisiones, teniendo al usuario como protagonista."
+      ],
+      dato: "Palabras clave: técnico/operativo · experiencia del usuario · abordaje técnico · profesor como protagonista." },
+    { s: "ATP", q: "¿Cuáles son los 4 puntos de apoyo de ATP?",
+      ok: "Ajuste · Puntos de atención · Performance · Grado de complejidad",
+      mal: ["Ajuste · Repeticiones · Intervalo · Series", "Observación · Interacción · Recomendación · Registro", "Preparar · Recibir · Instruir · Motivar"] },
+    { s: "ATP", q: "En ATP, ¿qué es el Ajuste?", ok: DEF_ATP.ajuste, mal: sin(DEF_ATP, "ajuste") },
+    { s: "ATP", q: "En ATP, ¿qué son los Puntos de atención?", ok: DEF_ATP.atencion, mal: sin(DEF_ATP, "atencion") },
+    { s: "ATP", q: "En ATP, ¿qué es la Performance?", ok: DEF_ATP.performance, mal: sin(DEF_ATP, "performance") },
+    { s: "ATP", q: "En ATP, ¿qué es el Grado de complejidad?", ok: DEF_ATP.complejidad, mal: sin(DEF_ATP, "complejidad") },
+    { s: "ATP", q: "Antes de que el usuario empiece, le regulas la altura del asiento y el respaldo de la máquina. ¿Qué punto de ATP estás aplicando?",
+      ok: "Ajuste", mal: ["Puntos de atención", "Performance", "Grado de complejidad"],
+      dato: "Ajuste = todo lo de antes de la ejecución." },
+    { s: "ATP", q: "Durante la sentadilla, le corriges al usuario la posición de las rodillas. ¿Qué punto de ATP es?",
+      ok: "Puntos de atención", mal: ["Ajuste", "Performance", "Grado de complejidad"],
+      dato: "Puntos de atención = corrección durante el ejercicio." },
+
+    // ---------- PRIME ----------
+    { s: "PRIME", q: "¿Qué es PRIME?",
+      ok: "Nuestra metodología para interactuar con los usuarios: recibir con amabilidad, instruir, motivar durante el proceso, encantar empatizando y mejorando su experiencia.",
+      mal: [
+        "Nuestro sistema para registrar las incidencias de la sede y comunicarlas al líder de sede al final del turno.",
+        "Nuestro plan de entrenamiento premium para usuarios avanzados, con rutinas especiales y más series.",
+        "Nuestra estrategia para cobrar a tiempo las membresías y reducir los usuarios inactivos del mes."
+      ] },
+    { s: "PRIME", q: "En el Protocolo de clase, ¿qué significa PRIME?",
+      ok: "Preparar · Recibir · Instruir · Motivar · Empatizar",
+      mal: ["Planificar · Revisar · Indicar · Medir · Evaluar", "Presentar · Registrar · Intervenir · Mejorar · Entrenar", "Preparar · Repetir · Intensificar · Medir · Estirar"] },
+    { s: "PRIME", q: "En el Check out de la clase, ¿cómo se divulga la encuesta de satisfacción (NPS)?",
+      ok: "Se divulga la encuesta, pero sin pedir calificación.",
+      mal: ["Se le pide a cada usuario que ponga 10.", "No se menciona nunca en la clase.", "Solo se le envía a los usuarios nuevos."],
+      dato: "Esto cuida nuestra meta de NPS trimestral: 80.57." },
+
+    // ---------- Flujo de intervención ----------
+    { s: "Flujo de intervención", q: "¿Cuál es el orden correcto del Flujo de intervención?",
+      ok: "Observación → Interacción → Recomendación → Registro",
+      mal: ["Interacción → Observación → Registro → Recomendación", "Observación → Recomendación → Interacción → Registro", "Registro → Observación → Interacción → Recomendación"] },
+    { s: "Flujo de intervención", q: "En el Flujo de intervención, “identificar la situación” corresponde a:",
+      ok: "Observación", mal: ["Interacción", "Recomendación", "Registro"],
+      dato: "Observación: identificar · Interacción: establecer contacto · Recomendación: resolución · Registro: sistema y líder." },
+    { s: "Flujo de intervención", q: "¿Qué hacemos en el paso de Registro?",
+      ok: "Registrar en el sistema y comunicar al líder de sede lo ocurrido.",
+      mal: ["Anotar el peso del usuario en su rutina.", "Volver a observar la pista desde otro sector.", "Pedirle al usuario que califique la atención."] }
+  ];
+
+  // ---------- Estado y utilidades ----------
+  const $ = id => document.getElementById(id);
+  const estado = { nombre: "", i: 0, respuestas: [], respondida: false };
+
+  function mostrar(id) {
+    document.querySelectorAll(".pantalla").forEach(p => { p.hidden = p.id !== id; });
+    $("cab-repaso").hidden = id === "repaso";
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }
+
+  function mezclar(lista) {
+    const a = lista.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function el(tag, clase, texto) {
+    const n = document.createElement(tag);
+    if (clase) n.className = clase;
+    if (texto != null) n.textContent = texto;
+    return n;
+  }
+
+  // ---------- Cuestionario ----------
+  function iniciarQuiz() {
+    const nombre = $("nombre").value.trim();
+    if (!nombre) {
+      mostrar("inicio");
+      $("error-nombre").hidden = false;
+      $("nombre").focus();
+      return;
+    }
+    estado.nombre = nombre;
+    estado.i = 0;
+    estado.respuestas = [];
+    mostrar("quiz");
+    pintarPregunta();
+  }
+
+  function pintarPregunta() {
+    const p = PREGUNTAS[estado.i];
+    const total = PREGUNTAS.length;
+    estado.respondida = false;
+
+    $("q-contador").textContent = `Pregunta ${estado.i + 1} de ${total}`;
+    $("q-seccion").textContent = p.s;
+    const avance = Math.round((estado.i / total) * 100);
+    $("q-barra").style.width = avance + "%";
+    $("q-barra").parentElement.setAttribute("aria-valuenow", avance);
+    $("q-texto").textContent = p.q;
+
+    const cont = $("q-opciones");
+    cont.innerHTML = "";
+    mezclar([p.ok, ...p.mal]).forEach((texto, n) => {
+      const b = el("button", "opcion");
+      b.type = "button";
+      b.dataset.correcta = texto === p.ok ? "1" : "";
+      b.append(el("span", "letra-op", "ABCD"[n]), el("span", "", texto));
+      b.addEventListener("click", () => responder(b));
+      cont.append(b);
+    });
+
+    $("q-feedback").hidden = true;
+    $("btn-siguiente").hidden = true;
+  }
+
+  function responder(elegido) {
+    if (estado.respondida) return;
+    estado.respondida = true;
+
+    const p = PREGUNTAS[estado.i];
+    const acierto = elegido.dataset.correcta === "1";
+    estado.respuestas.push({ i: estado.i, acierto });
+
+    document.querySelectorAll("#q-opciones .opcion").forEach(b => {
+      b.disabled = true;
+      if (b.dataset.correcta === "1") b.classList.add("correcta");
+    });
+    if (!acierto) elegido.classList.add("incorrecta");
+
+    const fb = $("q-feedback");
+    fb.innerHTML = "";
+    fb.className = "feedback " + (acierto ? "bien" : "mal");
+    fb.append(el("p", "feedback-titulo", acierto ? "¡Correcto!" : "Casi…"));
+    if (!acierto) {
+      const linea = el("p");
+      linea.append("La respuesta correcta es: ", el("strong", "", p.ok));
+      fb.append(linea);
+    }
+    if (p.dato) fb.append(el("p", "dato", p.dato));
+    fb.hidden = false;
+
+    const sig = $("btn-siguiente");
+    sig.textContent = estado.i === PREGUNTAS.length - 1 ? "Ver mi resultado" : "Siguiente";
+    sig.hidden = false;
+    sig.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  function siguiente() {
+    if (estado.i < PREGUNTAS.length - 1) {
+      estado.i++;
+      pintarPregunta();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      mostrarResultado();
+    }
+  }
+
+  // ---------- Resultado ----------
+  function resumenPorTema() {
+    const temas = [];
+    PREGUNTAS.forEach((p, i) => {
+      let t = temas.find(x => x.nombre === p.s);
+      if (!t) { t = { nombre: p.s, total: 0, bien: 0 }; temas.push(t); }
+      t.total++;
+      const r = estado.respuestas.find(x => x.i === i);
+      if (r && r.acierto) t.bien++;
+    });
+    return temas;
+  }
+
+  function mostrarResultado() {
+    const total = PREGUNTAS.length;
+    const aciertos = estado.respuestas.filter(r => r.acierto).length;
+    const pct = Math.round((aciertos / total) * 100);
+
+    $("r-nombre").textContent = estado.nombre;
+    $("r-pct").textContent = pct + "%";
+    $("r-aciertos").textContent = `${aciertos} de ${total}`;
+    $("r-anillo").style.setProperty("--p", pct);
+
+    let titulo, mensaje;
+    if (pct === 100) { titulo = "¡Perfecto!"; mensaje = "Dominas todo el checklist. Así se hace."; }
+    else if (pct >= 85) { titulo = "¡Excelente!"; mensaje = "Estás muy bien preparado. Revisa los puntos a reforzar."; }
+    else if (pct >= 70) { titulo = "¡Bien!"; mensaje = "Vas por buen camino. Repasa lo marcado y vuelve a intentarlo."; }
+    else { titulo = "A reforzar"; mensaje = "Vuelve al repaso, enfócate en lo amarillo y repite el cuestionario."; }
+    $("r-titulo").textContent = titulo;
+    $("r-mensaje").textContent = mensaje;
+
+    const cont = $("r-secciones");
+    cont.innerHTML = "";
+    resumenPorTema().forEach(t => {
+      const fila = el("div", "fila-sec");
+      const barra = el("div", "barra");
+      const relleno = el("div", t.bien === t.total ? "completa" : "");
+      relleno.style.width = Math.round((t.bien / t.total) * 100) + "%";
+      barra.append(relleno);
+      fila.append(el("span", "", t.nombre), el("span", "", `${t.bien}/${t.total}`), barra);
+      cont.append(fila);
+    });
+
+    const fallos = estado.respuestas.filter(r => !r.acierto);
+    const lista = $("r-repasar");
+    lista.innerHTML = "";
+    $("r-bloque-repasar").hidden = fallos.length === 0;
+    fallos.forEach(r => {
+      const p = PREGUNTAS[r.i];
+      const li = el("li");
+      li.append(el("b", "", p.q), el("span", "", "✓ " + p.ok));
+      lista.append(li);
+    });
+
+    mostrar("resultado");
+  }
+
+  function compartir() {
+    const total = PREGUNTAS.length;
+    const aciertos = estado.respuestas.filter(r => r.acierto).length;
+    const pct = Math.round((aciertos / total) * 100);
+    const reforzar = resumenPorTema().filter(t => t.bien < t.total).map(t => t.nombre);
+    let texto = `✅ Cuestionario Checklist Operativo\n${estado.nombre}: ${aciertos}/${total} (${pct}%)`;
+    if (reforzar.length) texto += `\nA reforzar: ${reforzar.join(", ")}`;
+    window.open("https://wa.me/?text=" + encodeURIComponent(texto), "_blank", "noopener");
+  }
+
+  // ---------- Eventos ----------
+  $("total-preguntas").textContent = PREGUNTAS.length;
+  $("btn-repasar").addEventListener("click", () => mostrar("repaso"));
+  $("cab-repaso").addEventListener("click", () => mostrar("repaso"));
+  $("btn-ir-quiz").addEventListener("click", iniciarQuiz);
+  $("btn-quiz-desde-repaso").addEventListener("click", iniciarQuiz);
+  $("btn-siguiente").addEventListener("click", siguiente);
+  $("btn-compartir").addEventListener("click", compartir);
+  $("btn-repetir").addEventListener("click", iniciarQuiz);
+  $("btn-volver-repaso").addEventListener("click", () => mostrar("repaso"));
+  $("nombre").addEventListener("input", () => { $("error-nombre").hidden = true; });
+  $("nombre").addEventListener("keydown", e => { if (e.key === "Enter") iniciarQuiz(); });
+</script>
+</body>
+</html>
