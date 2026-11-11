@@ -19,6 +19,7 @@
     --negro: #0B0B0B;
     --panel: #151515;
     --panel-2: #1E1E1E;
+    --escena: #101010;
     --borde: #2C2C2C;
     --texto: #F5F5F5;
     --suave: #B0B0B0;
@@ -50,6 +51,8 @@
   [hidden] { display: none !important; }
 
   .contenedor { max-width: 680px; margin: 0 auto; padding: 0 16px; }
+  .contenedor.medio { max-width: 800px; }
+  .contenedor.ancho { max-width: 1100px; }
 
   /* ---------- Encabezado ---------- */
   .cabecera {
@@ -59,7 +62,7 @@
     -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--borde);
   }
-  .cabecera .contenedor { display: flex; align-items: center; justify-content: space-between; height: 56px; gap: 12px; }
+  .cabecera .contenedor { display: flex; align-items: center; justify-content: space-between; height: 56px; gap: 12px; max-width: 1100px; }
   .marca { display: flex; align-items: center; gap: 10px; min-width: 0; }
   .marca-sf { font-family: var(--display); font-weight: 800; font-style: italic; font-size: 22px; letter-spacing: .5px; color: var(--amarillo); white-space: nowrap; }
   .marca-sep { width: 1px; height: 20px; background: var(--borde); }
@@ -102,6 +105,8 @@
   }
   .hero h1 span { color: var(--amarillo); }
   .hero p { color: var(--suave); margin: 0 0 22px; font-size: 18px; }
+  .hero-esc { margin: 0 0 22px; }
+  .hero-esc svg { max-height: 220px; }
   .temas { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 26px; padding: 0; list-style: none; }
   .temas li { border: 1px solid var(--borde); background: var(--panel); padding: 6px 12px; border-radius: 999px; font-size: 14px; font-weight: 600; }
   .campo { margin-bottom: 18px; }
@@ -114,6 +119,20 @@
   .campo .error { color: var(--mal); font-size: 14px; margin-top: 6px; }
   .acciones { display: grid; gap: 12px; }
   .nota { color: var(--suave); font-size: 14px; text-align: center; margin: 14px 0 0; }
+
+  /* ---------- Escenas animadas ---------- */
+  .esc { background: var(--escena); border: 1px solid #222; border-radius: 12px; overflow: hidden; }
+  .esc svg { display: block; width: 100%; height: auto; margin: 0 auto; }
+  .solo-despues { display: none; }
+  .revelado .solo-despues { display: inline; }
+  .revelado .solo-antes { display: none; }
+  .aguja-fin { animation: aguja 1.3s cubic-bezier(.3, 1.4, .5, 1) both; }
+  @keyframes aguja { from { transform: rotate(-90deg); } }
+  .arco-fin { animation: llenar 1.3s ease-out both; }
+  @keyframes llenar { from { stroke-dashoffset: 439.82; } }
+  @media (prefers-reduced-motion: reduce) {
+    .esc * { animation: none !important; }
+  }
 
   /* ---------- Repaso ---------- */
   .indice {
@@ -149,25 +168,36 @@
     margin: 0; padding: 14px 16px; border-left: 4px solid var(--amarillo); background: var(--panel-2);
     border-radius: 0 12px 12px 0; font-size: 17px;
   }
-  .def strong, .lista strong, .paso strong { color: var(--amarillo); font-weight: 700; }
+  .def strong, .lista strong, .paso strong, .letra-txt strong { color: var(--amarillo); font-weight: 700; }
   .etiqueta-pregunta { font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--suave); margin: 0 0 6px; }
 
+  .def-con-esc { display: grid; gap: 14px; }
+  .def-con-esc .esc svg { max-height: 220px; }
+  @media (min-width: 640px) {
+    .def-con-esc { grid-template-columns: minmax(0, 1fr) 280px; align-items: center; }
+  }
+
   .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-  .stats-4 { grid-template-columns: repeat(2, 1fr); }
-  .stat { background: var(--panel-2); border: 1px solid var(--borde); border-radius: 12px; padding: 14px 12px; }
-  .stat-num { display: block; font-family: var(--display); font-weight: 800; font-size: 34px; line-height: 1; color: var(--amarillo); }
-  .stat-lbl { display: block; font-size: 13.5px; color: var(--suave); margin-top: 6px; line-height: 1.3; }
-  @media (max-width: 440px) {
+  .stats-4 { grid-template-columns: repeat(4, 1fr); }
+  .stat { background: var(--panel-2); border: 1px solid var(--borde); border-radius: 12px; padding: 8px; display: flex; flex-direction: column; gap: 8px; }
+  .stat-lbl { display: block; font-size: 13.5px; color: var(--suave); line-height: 1.3; text-align: center; padding: 0 4px 4px; }
+  .stat-lbl b { color: var(--texto); }
+  @media (max-width: 620px) {
     .stats { grid-template-columns: 1fr; }
+    .stats .esc svg { max-height: 150px; }
     .stats-4 { grid-template-columns: repeat(2, 1fr); }
-    .stats .stat { display: flex; align-items: center; gap: 14px; }
-    .stats .stat-lbl { margin-top: 0; }
-    .stats-4 .stat { display: block; }
-    .stats-4 .stat-lbl { margin-top: 6px; }
+    .stats-4 .esc svg { max-height: none; }
   }
 
   .letras { display: grid; gap: 10px; margin-top: 14px; }
   .letra { display: flex; gap: 14px; align-items: center; background: var(--panel-2); border-radius: 12px; padding: 12px; }
+  .letra.con-esc { display: grid; grid-template-columns: auto minmax(0, 1fr) 210px; }
+  .letra.con-esc .esc svg { max-height: 132px; }
+  @media (max-width: 600px) {
+    .letra.con-esc { grid-template-columns: auto minmax(0, 1fr); }
+    .letra.con-esc .esc { grid-column: 1 / -1; }
+    .letra.con-esc .esc svg { max-height: 170px; }
+  }
   .hex {
     width: 50px; height: 56px; flex-shrink: 0; display: grid; place-items: center;
     clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
@@ -179,7 +209,7 @@
   .lista { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
   .lista li { background: var(--panel-2); border-radius: 10px; padding: 10px 12px; font-size: 15.5px; }
 
-  .pasos { display: grid; gap: 10px; counter-reset: paso; }
+  .pasos { display: grid; gap: 10px; margin-top: 14px; }
   .paso { display: flex; gap: 14px; align-items: flex-start; background: var(--panel-2); border-radius: 12px; padding: 12px; }
   .paso-num {
     width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0; display: grid; place-items: center;
@@ -188,6 +218,8 @@
   .paso-txt b { display: block; font-family: var(--display); font-weight: 800; text-transform: uppercase; font-size: 19px; letter-spacing: .5px; }
   .paso-txt span { color: var(--suave); font-size: 15.5px; }
   .lema { text-align: center; font-size: 12.5px; font-weight: 700; letter-spacing: 1.6px; color: var(--suave); margin: 14px 0 0; text-transform: uppercase; }
+  .esc-suelta { margin-top: 12px; }
+  .esc-suelta svg { max-height: 220px; }
 
   .barra-inferior {
     position: sticky; bottom: 0; z-index: 10; padding: 14px 0 calc(14px + env(safe-area-inset-bottom));
@@ -200,10 +232,26 @@
   .quiz-meta .seccion { color: #000; background: var(--amarillo); font-weight: 700; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; padding: 4px 9px; border-radius: 6px; }
   .progreso { height: 8px; background: var(--panel-2); border-radius: 999px; overflow: hidden; }
   .progreso div { height: 100%; width: 0; background: var(--amarillo); border-radius: 999px; transition: width .3s ease; }
+
+  .quiz-grid { display: grid; gap: 16px; padding-top: 16px; }
+  .panel-vis { order: -1; background: var(--panel); border: 1px solid var(--borde); border-radius: var(--radio); padding: 10px; }
+  .panel-cab { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 2px 4px 8px; }
+  .panel-tag { font-size: 11px; font-weight: 700; letter-spacing: 1.3px; text-transform: uppercase; color: var(--amarillo); }
+  .panel-pista { font-size: 12px; color: var(--suave); }
+  .panel-vis .esc svg { max-height: 190px; }
+  .panel-ancla { margin: 10px 0 0; padding: 10px 12px; border-radius: 10px; background: var(--panel-2); font-size: 15px; line-height: 1.4; border-left: 4px solid var(--amarillo); }
+  .panel-ancla b { color: var(--amarillo); }
+  @media (min-width: 900px) {
+    .quiz-grid { grid-template-columns: minmax(0, 1fr) 420px; gap: 32px; align-items: start; }
+    .panel-vis { order: 0; position: sticky; top: 76px; margin-top: 18px; padding: 16px; }
+    .panel-vis .esc svg { max-height: none; }
+  }
+
   .pregunta {
     font-family: var(--display); font-weight: 700; font-size: clamp(26px, 6.4vw, 32px); line-height: 1.15;
-    margin: 22px 0 18px; letter-spacing: .2px;
+    margin: 6px 0 18px; letter-spacing: .2px;
   }
+  @media (min-width: 900px) { .pregunta { margin-top: 18px; } }
   .opciones { display: grid; gap: 10px; }
   .opcion {
     display: flex; align-items: flex-start; gap: 12px; text-align: left; width: 100%;
@@ -250,11 +298,10 @@
   .fila-sec .barra div { height: 100%; border-radius: 999px; background: var(--amarillo); }
   .fila-sec .barra div.completa { background: var(--ok); }
   .fila-sec span:last-of-type { color: var(--suave); font-variant-numeric: tabular-nums; }
-  .repasar { display: grid; gap: 10px; }
+  .repasar { display: grid; gap: 10px; padding: 0; margin: 0; }
   .repasar li { list-style: none; background: var(--panel-2); border-radius: 12px; padding: 12px 14px; font-size: 15px; }
   .repasar li b { display: block; margin-bottom: 4px; }
   .repasar li span { color: var(--ok); }
-  .repasar { padding: 0; margin: 0; }
 
   .pie { text-align: center; color: #6F6F6F; font-size: 13px; padding: 28px 0 36px; }
 </style>
@@ -280,7 +327,8 @@
       <div class="hero">
         <span class="chip">Checklist operativo</span>
         <h1>Lo importante, <span>claro y rápido</span></h1>
-        <p>Primero repasa los conceptos clave y después responde el cuestionario. Al final ves tu resultado y lo puedes enviar.</p>
+        <p>Primero repasa los conceptos clave y después responde el cuestionario. Cada tema tiene una animación que te ayuda a recordarlo.</p>
+        <div class="esc hero-esc revelado" data-esc="atp"></div>
         <ul class="temas">
           <li>Metas</li><li>PPP</li><li>PAIS</li><li>ATP</li><li>PRIME</li><li>Flujo de intervención</li>
         </ul>
@@ -301,7 +349,7 @@
   <!-- ================= REPASO ================= -->
   <section id="repaso" class="pantalla" hidden>
     <nav class="indice" aria-label="Temas del repaso">
-      <div class="contenedor">
+      <div class="contenedor medio">
         <a href="#r-metas">Metas</a>
         <a href="#r-ppp">PPP</a>
         <a href="#r-pais">PAIS</a>
@@ -311,69 +359,89 @@
       </div>
     </nav>
 
-    <div class="contenedor">
+    <div class="contenedor medio">
       <div class="intro-repaso">
         <span class="chip">Paso 1 · Repaso</span>
         <h1>Lo que todos debemos saber</h1>
-        <p>Lo marcado en amarillo es lo que más se pregunta.</p>
+        <p>Lo marcado en amarillo es lo que más se pregunta. Fíjate en cada animación: en el cuestionario vas a ver la misma.</p>
       </div>
 
       <!-- Metas -->
       <article class="bloque" id="r-metas">
         <div class="bloque-cab"><h2>Metas de la sede</h2></div>
         <div class="stats">
-          <div class="stat"><span class="stat-num">80.57</span><span class="stat-lbl">NPS trimestral</span></div>
-          <div class="stat"><span class="stat-num">1.600</span><span class="stat-lbl">Usuarios activos para noviembre</span></div>
-          <div class="stat"><span class="stat-num">43.588</span><span class="stat-lbl">Facturación para noviembre</span></div>
+          <div class="stat"><div class="esc revelado" data-esc="nps"></div><span class="stat-lbl"><b>NPS trimestral</b></span></div>
+          <div class="stat"><div class="esc revelado" data-esc="activos"></div><span class="stat-lbl"><b>Usuarios activos</b> para noviembre</span></div>
+          <div class="stat"><div class="esc revelado" data-esc="facturacion"></div><span class="stat-lbl"><b>Facturación</b> para noviembre</span></div>
         </div>
         <h3>Metas técnicas</h3>
         <div class="stats stats-4">
-          <div class="stat"><span class="stat-num">80%</span><span class="stat-lbl">Acceso a la app: ventas semanales que descargaron la app</span></div>
-          <div class="stat"><span class="stat-num">20%</span><span class="stat-lbl">Cantidad de rutinas enviadas vs. activos del mes</span></div>
-          <div class="stat"><span class="stat-num">70%</span><span class="stat-lbl">Aforo de productos</span></div>
-          <div class="stat"><span class="stat-num">90%</span><span class="stat-lbl">PPP</span></div>
+          <div class="stat"><div class="esc revelado" data-esc='["anillo",80,"descarga"]'></div><span class="stat-lbl"><b>Acceso a la app:</b> ventas semanales que descargaron la app</span></div>
+          <div class="stat"><div class="esc revelado" data-esc='["anillo",20,"avion"]'></div><span class="stat-lbl"><b>Rutinas enviadas</b> vs. activos del mes</span></div>
+          <div class="stat"><div class="esc revelado" data-esc='["anillo",70,"grupo"]'></div><span class="stat-lbl"><b>Aforo</b> de productos</span></div>
+          <div class="stat"><div class="esc revelado" data-esc='["anillo",90,"diana"]'></div><span class="stat-lbl"><b>PPP</b></span></div>
         </div>
       </article>
 
       <!-- PPP -->
       <article class="bloque" id="r-ppp">
         <div class="bloque-cab"><span class="sigla">P.P.P</span><h2>Premisas de Prescripción de PAIS</h2></div>
-        <p class="etiqueta-pregunta">¿Qué son las Premisas de Prescripción de PAIS?</p>
-        <blockquote class="def">Estrategia de prescripción basada en <strong>investigaciones científicas</strong>, adecuada a los <strong>niveles de los usuarios</strong>, creada también para <strong>ayudar a la operación</strong>, para <strong>no generar saturación</strong>.</blockquote>
+        <div class="def-con-esc">
+          <div>
+            <p class="etiqueta-pregunta">¿Qué son las Premisas de Prescripción de PAIS?</p>
+            <blockquote class="def">Estrategia de prescripción basada en <strong>investigaciones científicas</strong>, adecuada a los <strong>niveles de los usuarios</strong>, creada también para <strong>ayudar a la operación</strong>, para <strong>no generar saturación</strong>.</blockquote>
+          </div>
+          <div class="esc revelado" data-esc="ppp"></div>
+        </div>
       </article>
 
       <!-- PAIS -->
       <article class="bloque" id="r-pais">
         <div class="bloque-cab"><span class="sigla">PAIS</span><h2>Prescripción · Abordaje · Intervención · Sectorización</h2></div>
-        <p class="etiqueta-pregunta">¿Qué es PAIS?</p>
-        <blockquote class="def"><strong>Estrategia</strong> para impactar en los principales puntos de la <strong>experiencia</strong> del entreno en <strong>Smart Fit</strong>.</blockquote>
+        <div class="def-con-esc">
+          <div>
+            <p class="etiqueta-pregunta">¿Qué es PAIS?</p>
+            <blockquote class="def"><strong>Estrategia</strong> para impactar en los principales puntos de la <strong>experiencia</strong> del entreno en <strong>Smart Fit</strong>.</blockquote>
+          </div>
+          <div class="esc revelado" data-esc="pais"></div>
+        </div>
         <div class="letras">
-          <div class="letra"><div class="hex">P</div><div class="letra-txt"><b>Prescripción</b><span>Prescripción por “perfil de persona” con tecnología como forma de entrega.</span></div></div>
-          <div class="letra"><div class="hex">A</div><div class="letra-txt"><b>Abordaje</b><span>Momento de mayor impacto para la retención y fidelización.</span></div></div>
-          <div class="letra"><div class="hex">I</div><div class="letra-txt"><b>Intervención</b><span>Gestión de pista e intervención en la experiencia del usuario.</span></div></div>
-          <div class="letra"><div class="hex">S</div><div class="letra-txt"><b>Sectorización</b><span>Posicionamiento estratégico: observar y ser visto por el mayor número de usuarios.</span></div></div>
+          <div class="letra con-esc"><div class="hex">P</div><div class="letra-txt"><b>Prescripción</b><span>Prescripción por “<strong>perfil de persona</strong>” con <strong>tecnología</strong> como forma de entrega.</span></div><div class="esc revelado" data-esc="paisP"></div></div>
+          <div class="letra con-esc"><div class="hex">A</div><div class="letra-txt"><b>Abordaje</b><span><strong>Momento de mayor impacto</strong> para la retención y fidelización.</span></div><div class="esc revelado" data-esc="paisA"></div></div>
+          <div class="letra con-esc"><div class="hex">I</div><div class="letra-txt"><b>Intervención</b><span><strong>Gestión de pista</strong> e intervención en la experiencia del usuario.</span></div><div class="esc revelado" data-esc="paisI"></div></div>
+          <div class="letra con-esc"><div class="hex">S</div><div class="letra-txt"><b>Sectorización</b><span><strong>Posicionamiento estratégico</strong>: observar y ser visto por el mayor número de usuarios.</span></div><div class="esc revelado" data-esc="paisS"></div></div>
         </div>
       </article>
 
       <!-- ATP -->
       <article class="bloque" id="r-atp">
         <div class="bloque-cab"><span class="sigla">A.T.P</span><h2>Abordaje Técnico de PAIS</h2></div>
-        <p class="etiqueta-pregunta">¿Qué es ATP?</p>
-        <blockquote class="def">Método <strong>técnico/operativo</strong> que tiene como objetivo mejorar la <strong>experiencia del usuario</strong>, a través de un <strong>abordaje técnico</strong>, teniendo al <strong>profesor como protagonista</strong>.</blockquote>
+        <div class="def-con-esc">
+          <div>
+            <p class="etiqueta-pregunta">¿Qué es ATP?</p>
+            <blockquote class="def">Método <strong>técnico/operativo</strong> que tiene como objetivo mejorar la <strong>experiencia del usuario</strong>, a través de un <strong>abordaje técnico</strong>, teniendo al <strong>profesor como protagonista</strong>.</blockquote>
+          </div>
+          <div class="esc revelado" data-esc="atp"></div>
+        </div>
         <h3>Los 4 puntos de apoyo</h3>
         <div class="letras">
-          <div class="letra"><div class="hex">1</div><div class="letra-txt"><b>Ajuste</b><span>Posicionamiento de las articulaciones, bancos o máquinas <strong>previo a la ejecución</strong> (todo lo de antes).</span></div></div>
-          <div class="letra"><div class="hex">2</div><div class="letra-txt"><b>Puntos de atención</b><span>Corrección del movimiento de las articulaciones <strong>durante el ejercicio</strong>.</span></div></div>
-          <div class="letra"><div class="hex">3</div><div class="letra-txt"><b>Performance</b><span>Optimización del ejercicio para obtener un <strong>mejor resultado</strong> en el grupo muscular.</span></div></div>
-          <div class="letra"><div class="hex">4</div><div class="letra-txt"><b>Grado de complejidad</b><span>Lo define la <strong>dificultad del ejercicio</strong> (por ejemplo, que intervengan más articulaciones).</span></div></div>
+          <div class="letra con-esc"><div class="hex">1</div><div class="letra-txt"><b>Ajuste</b><span>Posicionamiento de las articulaciones, bancos o máquinas <strong>previo a la ejecución</strong> (todo lo de antes).</span></div><div class="esc revelado" data-esc="ajuste"></div></div>
+          <div class="letra con-esc"><div class="hex">2</div><div class="letra-txt"><b>Puntos de atención</b><span>Corrección del movimiento de las articulaciones <strong>durante el ejercicio</strong>.</span></div><div class="esc revelado" data-esc="atencion"></div></div>
+          <div class="letra con-esc"><div class="hex">3</div><div class="letra-txt"><b>Performance</b><span>Optimización del ejercicio para obtener un <strong>mejor resultado</strong> en el grupo muscular.</span></div><div class="esc revelado" data-esc="performance"></div></div>
+          <div class="letra con-esc"><div class="hex">4</div><div class="letra-txt"><b>Grado de complejidad</b><span>Lo define la <strong>dificultad del ejercicio</strong> (por ejemplo, que intervengan más articulaciones).</span></div><div class="esc revelado" data-esc="complejidad"></div></div>
         </div>
       </article>
 
       <!-- PRIME -->
       <article class="bloque" id="r-prime">
         <div class="bloque-cab"><span class="sigla">PRIME</span><h2>Protocolo de clase</h2></div>
-        <p class="etiqueta-pregunta">¿Qué es PRIME?</p>
-        <blockquote class="def">PRIME es nuestra <strong>metodología para interactuar con los usuarios</strong>: recibir con amabilidad, instruir, motivar durante el proceso, encantar empatizando y mejorando su experiencia.</blockquote>
+        <div class="def-con-esc">
+          <div>
+            <p class="etiqueta-pregunta">¿Qué es PRIME?</p>
+            <blockquote class="def">PRIME es nuestra <strong>metodología para interactuar con los usuarios</strong>: recibir con amabilidad, instruir, motivar durante el proceso, encantar empatizando y mejorando su experiencia.</blockquote>
+          </div>
+          <div class="esc revelado" data-esc="prime"></div>
+        </div>
         <div class="letras">
           <div class="letra"><div class="hex">P</div><div class="letra-txt"><b>Preparar</b><span>Previo: revisar el entrenamiento, invitar personalmente, preparar lugares.</span></div></div>
           <div class="letra"><div class="hex">R</div><div class="letra-txt"><b>Recibir</b><span>Check in: recibir con amabilidad, presentarse, preguntar por lesiones.</span></div></div>
@@ -389,11 +457,13 @@
           <li><strong>4. Parte principal</strong> (Instruir · Motivar · Empatizar)</li>
           <li><strong>5. Check out</strong> (Empatizar): divulgar la encuesta de satisfacción NPS, <strong>sin pedir calificación</strong>.</li>
         </ul>
+        <div class="esc esc-suelta revelado" data-esc="checkout"></div>
       </article>
 
       <!-- Flujo -->
       <article class="bloque" id="r-flujo">
         <div class="bloque-cab"><h2>Flujo de intervención</h2></div>
+        <div class="esc revelado" data-esc="flujo"></div>
         <div class="pasos">
           <div class="paso"><div class="paso-num">01</div><div class="paso-txt"><b>Observación</b><span>Identificar la situación.</span></div></div>
           <div class="paso"><div class="paso-num">02</div><div class="paso-txt"><b>Interacción</b><span>Establecer contacto.</span></div></div>
@@ -411,7 +481,7 @@
 
   <!-- ================= CUESTIONARIO ================= -->
   <section id="quiz" class="pantalla" hidden>
-    <div class="contenedor">
+    <div class="contenedor ancho">
       <div class="quiz-top">
         <div class="quiz-meta">
           <span id="q-contador">Pregunta 1 de 1</span>
@@ -419,10 +489,19 @@
         </div>
         <div class="progreso" role="progressbar" aria-label="Progreso del cuestionario" aria-valuemin="0" aria-valuemax="100"><div id="q-barra"></div></div>
       </div>
-      <h2 class="pregunta" id="q-texto"></h2>
-      <div class="opciones" id="q-opciones"></div>
-      <div class="feedback" id="q-feedback" aria-live="polite" hidden></div>
-      <button class="btn btn-primario" id="btn-siguiente" type="button" hidden>Siguiente</button>
+      <div class="quiz-grid">
+        <div class="quiz-main">
+          <h2 class="pregunta" id="q-texto"></h2>
+          <div class="opciones" id="q-opciones"></div>
+          <div class="feedback" id="q-feedback" aria-live="polite" hidden></div>
+          <button class="btn btn-primario" id="btn-siguiente" type="button" hidden>Siguiente</button>
+        </div>
+        <aside class="panel-vis" aria-label="Anclaje visual">
+          <div class="panel-cab"><span class="panel-tag">Anclaje visual</span><span class="panel-pista" id="v-pista">Mira la animación</span></div>
+          <div class="esc" id="v-escena"></div>
+          <p class="panel-ancla" id="v-ancla" hidden></p>
+        </aside>
+      </div>
       <div style="height: 32px"></div>
     </div>
   </section>
@@ -460,7 +539,402 @@
 <footer class="pie">Material interno de repaso para el equipo de la sede.</footer>
 
 <script>
-  // Cada pregunta: s = tema, q = pregunta, ok = respuesta correcta, mal = opciones incorrectas, dato = refuerzo opcional.
+  // =====================================================================
+  //  ESCENAS ANIMADAS (anclaje visual). Todas usan un lienzo de 320 x 200.
+  // =====================================================================
+  const AM = "#FFB800", BL = "#F2F2F2", GR = "#3A3A3A", GR2 = "#5A5A5A", OKC = "#22C55E", MALC = "#F05252";
+  const FUENTE = 'font-family="Barlow Condensed, Arial Narrow, sans-serif" font-weight="800"';
+
+  const spl = n => Array(n).fill(".45 0 .55 1").join(";");
+  const kt = n => Array.from({ length: n + 1 }, (_, i) => (i / n).toFixed(3)).join(";");
+  const lienzo = (contenido, etiqueta) => `<svg viewBox="0 0 320 200" role="img" aria-label="${etiqueta}">${contenido}</svg>`;
+  const txt = (x, y, t, tam, color = BL, ancla = "middle", extra = "") =>
+    `<text x="${x}" y="${y}" ${FUENTE} font-size="${tam}" fill="${color}" text-anchor="${ancla}" ${extra}>${t}</text>`;
+  const piso = y => `<line x1="14" y1="${y}" x2="306" y2="${y}" stroke="#2A2A2A" stroke-width="2"/>`;
+
+  const ICONOS = {
+    engrane: `<circle r="9" fill="none" stroke="currentColor" stroke-width="5" stroke-dasharray="3.5 3.2"/><circle r="5" fill="none" stroke="currentColor" stroke-width="3"/>`,
+    ojo: `<path d="M-13 0 Q0 -12 13 0 Q0 12 -13 0Z" fill="none" stroke="currentColor" stroke-width="2.6"/><circle r="4.2" fill="currentColor"/>`,
+    flecha: `<path d="M0 11 V-9 M-8 -1 L0 -10 L8 -1" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>`,
+    nivel: `<rect x="-11" y="2" width="5.5" height="8" rx="1" fill="currentColor"/><rect x="-3" y="-3" width="5.5" height="13" rx="1" fill="currentColor"/><rect x="5" y="-9" width="5.5" height="19" rx="1" fill="currentColor"/>`,
+    chat: `<path d="M-12 -9 h24 v14 h-13 l-6 5 v-5 h-5z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/>`,
+    foco: `<path d="M-6 4 A9 9 0 1 1 6 4 L4 8 H-4 Z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><line x1="-4" y1="12" x2="4" y2="12" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>`,
+    registro: `<rect x="-9" y="-10" width="18" height="22" rx="2.5" fill="none" stroke="currentColor" stroke-width="2.6"/><rect x="-4" y="-13" width="8" height="5" rx="1.5" fill="currentColor"/><path d="M-5 2 L-1 6 L6 -2" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>`,
+    cara: `<circle r="11" fill="none" stroke="currentColor" stroke-width="2.6"/><circle cx="-4" cy="-3" r="1.9" fill="currentColor"/><circle cx="4" cy="-3" r="1.9" fill="currentColor"/><path d="M-6 3 Q0 9 6 3" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>`,
+    info: `<circle r="11" fill="none" stroke="currentColor" stroke-width="2.6"/><line x1="0" y1="-1" x2="0" y2="6" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><circle cy="-6" r="1.9" fill="currentColor"/>`,
+    rayo: `<path d="M3 -12 L-7 2 H0 L-3 12 L8 -3 H1 Z" fill="currentColor"/>`,
+    corazon: `<path d="M0 10 C-14 0 -11 -11 -4 -10 C-1 -10 0 -7 0 -6 C0 -7 1 -10 4 -10 C11 -11 14 0 0 10Z" fill="currentColor"/>`,
+    tel: `<rect x="-8" y="-12" width="16" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="2.6"/><line x1="-3" y1="8" x2="3" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>`,
+    descarga: `<rect x="-9" y="-13" width="18" height="26" rx="3" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M0 -6 V4 M-4 0 L0 4 L4 0" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>`,
+    avion: `<path d="M-12 0 L12 -10 L4 11 L0 3 Z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><path d="M0 3 L12 -10" stroke="currentColor" stroke-width="2"/>`,
+    grupo: `<circle cx="-8" cy="-4" r="4" fill="currentColor"/><circle cx="8" cy="-4" r="4" fill="currentColor"/><circle cy="-6" r="5" fill="currentColor"/><path d="M-15 10 Q-8 0 -2 10Z M2 10 Q8 0 15 10Z M-7 11 Q0 -3 7 11Z" fill="currentColor"/>`,
+    diana: `<circle r="11" fill="none" stroke="currentColor" stroke-width="2.6"/><circle r="6" fill="none" stroke="currentColor" stroke-width="2.6"/><circle r="2" fill="currentColor"/>`,
+    matraz: `<path d="M-3.5 -12 V-3 L-10 10 H10 L3.5 -3 V-12 M-5.5 -12 H5.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>`,
+    pista: `<rect x="-11" y="-9" width="22" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="2.6"/><circle cx="-4" cy="-2" r="2.3" fill="currentColor"/><circle cx="5" cy="3" r="2.3" fill="currentColor"/><circle cx="-3" cy="5" r="2.3" fill="currentColor"/>`
+  };
+  const ico = (nombre, x, y, s = 1, color = AM) => `<g transform="translate(${x} ${y}) scale(${s})" color="${color}">${ICONOS[nombre]}</g>`;
+
+  // Etiqueta amarilla con ícono (palabra ancla de cada escena)
+  function etiqueta(x, y, t, icono) {
+    const w = t.length * 8.4 + (icono ? 40 : 20);
+    return `<rect x="${x}" y="${y}" width="${w}" height="26" rx="7" fill="${AM}"/>` +
+      (icono ? ico(icono, x + 16, y + 13, .62, "#000") : "") +
+      txt(x + (icono ? 30 : 10), y + 19, t, 16, "#000", "start", 'letter-spacing="0.5"');
+  }
+
+  const hexPts = (cx, cy, r) => [0, 1, 2, 3, 4, 5].map(i => {
+    const a = Math.PI / 180 * (60 * i - 90);
+    return `${(cx + r * Math.cos(a)).toFixed(1)},${(cy + r * Math.sin(a)).toFixed(1)}`;
+  }).join(" ");
+  const estrellaPts = (cx, cy, R, r) => Array.from({ length: 10 }, (_, i) => {
+    const a = Math.PI / 180 * (36 * i - 90), rr = i % 2 ? r : R;
+    return `${(cx + rr * Math.cos(a)).toFixed(1)},${(cy + rr * Math.sin(a)).toFixed(1)}`;
+  }).join(" ");
+
+  // ---------- Figura humana articulada (vista lateral, mirando a la derecha) ----------
+  const POSES = {
+    pie:          { cabeza: [100, 44], cuello: [100, 60], cadera: [100, 112], rodA: [102, 150], pieA: [101, 188], rodB: [98, 150], pieB: [96, 188], codoA: [103, 86], manoA: [105, 111], codoB: [97, 86], manoB: [95, 111] },
+    sentArriba:   { cabeza: [100, 44], cuello: [100, 60], cadera: [100, 112], rodA: [102, 150], pieA: [101, 188], rodB: [99, 150], pieB: [96, 188], codoA: [126, 62], manoA: [150, 64], codoB: [124, 64], manoB: [148, 66] },
+    sentAbajo:    { cabeza: [113, 82], cuello: [108, 96], cadera: [80, 140], rodA: [118, 150], pieA: [103, 188], rodB: [115, 152], pieB: [99, 188], codoA: [134, 98], manoA: [158, 99], codoB: [132, 100], manoB: [156, 101] },
+    curlAbajo:    { cabeza: [100, 44], cuello: [100, 60], cadera: [100, 112], rodA: [102, 150], pieA: [101, 188], rodB: [98, 150], pieB: [96, 188], codoA: [103, 86], manoA: [106, 112], codoB: [97, 86], manoB: [95, 111] },
+    curlArriba:   { cabeza: [100, 44], cuello: [100, 60], cadera: [100, 112], rodA: [102, 150], pieA: [101, 188], rodB: [98, 150], pieB: [96, 188], codoA: [103, 86], manoA: [118, 66], codoB: [97, 86], manoB: [95, 111] },
+    empujeArriba: { cabeza: [100, 44], cuello: [100, 60], cadera: [100, 112], rodA: [102, 150], pieA: [101, 188], rodB: [99, 150], pieB: [96, 188], codoA: [104, 36], manoA: [106, 12], codoB: [100, 36], manoB: [102, 12] },
+    empujeAbajo:  { cabeza: [113, 82], cuello: [108, 96], cadera: [80, 140], rodA: [118, 150], pieA: [103, 188], rodB: [115, 152], pieB: [99, 188], codoA: [128, 104], manoA: [118, 82], codoB: [126, 106], manoB: [116, 84] },
+    profe:        { cabeza: [100, 44], cuello: [100, 60], cadera: [100, 112], rodA: [103, 150], pieA: [105, 188], rodB: [97, 150], pieB: [94, 188], codoA: [122, 70], manoA: [146, 74], codoB: [97, 86], manoB: [94, 111] },
+    profe2:       { cabeza: [100, 44], cuello: [100, 60], cadera: [100, 112], rodA: [103, 150], pieA: [105, 188], rodB: [97, 150], pieB: [94, 188], codoA: [122, 68], manoA: [146, 66], codoB: [97, 86], manoB: [94, 111] },
+    caminar1:     { cabeza: [101, 44], cuello: [100, 60], cadera: [100, 112], rodA: [110, 150], pieA: [116, 188], rodB: [92, 150], pieB: [86, 188], codoA: [93, 85], manoA: [88, 109], codoB: [107, 85], manoB: [113, 109] },
+    caminar2:     { cabeza: [101, 44], cuello: [100, 60], cadera: [100, 112], rodA: [92, 150], pieA: [86, 188], rodB: [110, 150], pieB: [116, 188], codoA: [107, 85], manoA: [113, 109], codoB: [93, 85], manoB: [88, 109] }
+  };
+
+  function anim(attr, valores, dur) {
+    if (new Set(valores).size === 1) return "";
+    const n = valores.length - 1;
+    return `<animate attributeName="${attr}" values="${valores.join(";")}" keyTimes="${kt(n)}" calcMode="spline" keySplines="${spl(n)}" dur="${dur}s" repeatCount="indefinite"/>`;
+  }
+
+  function figura(poses, o = {}) {
+    const { dur = 2.4, profe = false, puntos = [], foco = [], pesa = false } = o;
+    const seq = poses.length > 1 ? [...poses, poses[0]] : poses;
+    const v = (j, k) => seq.map(p => p[j][k]);
+    const hueso = ([a, b], ancho, col) => {
+      const xa = v(a, 0), ya = v(a, 1), xb = v(b, 0), yb = v(b, 1);
+      return `<line x1="${xa[0]}" y1="${ya[0]}" x2="${xb[0]}" y2="${yb[0]}" stroke="${col}" stroke-width="${ancho}" stroke-linecap="round">` +
+        anim("x1", xa, dur) + anim("y1", ya, dur) + anim("x2", xb, dur) + anim("y2", yb, dur) + `</line>`;
+    };
+    const punto = (j, r, attrs, extra = "") => {
+      const x = v(j, 0), y = v(j, 1);
+      return `<circle cx="${x[0]}" cy="${y[0]}" r="${r}" ${attrs}>${anim("cx", x, dur)}${anim("cy", y, dur)}${extra}</circle>`;
+    };
+    let s = "";
+    [["cadera", "rodB"], ["rodB", "pieB"], ["cuello", "codoB"], ["codoB", "manoB"]].forEach(h => s += hueso(h, 6, "#8E8E8E"));
+    s += hueso(["cuello", "cadera"], profe ? 14 : 10, profe ? AM : BL);
+    [["cadera", "rodA"], ["rodA", "pieA"], ["cuello", "codoA"], ["codoA", "manoA"]].forEach(h => s += hueso(h, 7, BL));
+    s += punto("cabeza", 11, `fill="${BL}"`);
+    if (pesa) s += punto("manoA", 6, `fill="${GR2}" stroke="${BL}" stroke-width="2"`);
+    puntos.forEach(j => s += punto(j, 4.6, `fill="${AM}" stroke="#000" stroke-width="1.5"`));
+    foco.forEach(j => s += punto(j, 10, `fill="none" stroke="${AM}" stroke-width="3"`,
+      `<animate attributeName="r" values="8;19" dur="1.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="1.2s" repeatCount="indefinite"/>`));
+    return s;
+  }
+
+  // Ubica una figura: cx = centro horizontal, base = línea del piso, s = escala
+  function colocar(cx, base, s, contenido, espejo = false) {
+    const tx = espejo ? cx + 100 * s : cx - 100 * s;
+    const ty = base - 188 * s;
+    return `<g transform="translate(${tx.toFixed(1)} ${ty.toFixed(1)}) scale(${espejo ? -s : s} ${s})">${contenido}</g>`;
+  }
+
+  // ---------- ATP ----------
+  function escATP() {
+    const luz = `<polygon points="86,0 134,0 160,150 60,150" fill="${AM}" opacity=".12"><animate attributeName="opacity" values=".07;.2;.07" dur="3s" repeatCount="indefinite"/></polygon>`;
+    const estrella = `<polygon points="${estrellaPts(110, 20, 10, 4.5)}" fill="${AM}"><animate attributeName="opacity" values="1;.4;1" dur="1.6s" repeatCount="indefinite"/></polygon>`;
+    const profe = colocar(110, 150, .74, figura([POSES.profe, POSES.profe2], { dur: 1.4, profe: true }));
+    const usuario = colocar(222, 150, .74, figura([POSES.sentArriba, POSES.sentAbajo], { dur: 2.6, puntos: ["cadera", "rodA"] }), true);
+    const iconos = ["engrane", "ojo", "flecha", "nivel"];
+    const chips = iconos.map((n, i) => {
+      const x = 16 + i * 74;
+      return `<rect x="${x}" y="160" width="66" height="32" rx="8" fill="#1C1C1C" stroke="#333" stroke-width="1.5"/>` +
+        `<rect x="${x}" y="160" width="66" height="32" rx="8" fill="${AM}" opacity="0"><animate attributeName="opacity" values="0;.3;0;0" keyTimes="0;.1;.24;1" begin="${i}s" dur="4s" repeatCount="indefinite"/></rect>` +
+        ico(n, x + 33, 176, .8, AM);
+    }).join("");
+    return lienzo(luz + estrella + piso(150) + profe + usuario + chips, "El profesor como protagonista atendiendo a un usuario");
+  }
+
+  function escAjuste() {
+    const poste = `<line x1="222" y1="186" x2="222" y2="78" stroke="${GR2}" stroke-width="9" stroke-linecap="round"/>` +
+      [96, 108, 120, 132, 144, 156].map(y => `<circle cx="222" cy="${y}" r="2" fill="#1A1A1A"/>`).join("") +
+      `<line x1="184" y1="186" x2="266" y2="186" stroke="${GR2}" stroke-width="8" stroke-linecap="round"/>`;
+    const asiento = `<g><animateTransform attributeName="transform" type="translate" values="0 0;0 -24;0 -24;0 0;0 0" keyTimes="0;.3;.62;.9;1" calcMode="spline" keySplines="${spl(4)}" dur="3.6s" repeatCount="indefinite"/>` +
+      `<rect x="184" y="136" width="64" height="12" rx="6" fill="${AM}"/><rect x="244" y="86" width="12" height="62" rx="6" fill="${AM}"/><circle cx="222" cy="142" r="4" fill="#000"/></g>`;
+    const engrane = `<g transform="translate(286 128)" color="${AM}"><g>${ICONOS.engrane}<animateTransform attributeName="transform" type="rotate" values="0;360" dur="2.4s" repeatCount="indefinite"/></g></g>`;
+    const check = `<path d="M268 66 l8 8 l14 -16" fill="none" stroke="${OKC}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0"><animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;.3;.36;.6;.66;1" dur="3.6s" repeatCount="indefinite"/></path>`;
+    const usuario = colocar(108, 186, .9, figura([POSES.pie], { puntos: ["cuello", "cadera", "rodA", "pieA"] }));
+    return lienzo(piso(186) + poste + asiento + engrane + check + usuario + etiqueta(14, 12, "ANTES", "engrane"), "Ajuste de la máquina antes de ejecutar");
+  }
+
+  function escAtencion() {
+    const usuario = colocar(112, 186, .92, figura([POSES.sentArriba, POSES.sentAbajo], { dur: 2.6, puntos: ["cadera", "rodA", "pieA"], foco: ["rodA"] }));
+    const profe = colocar(256, 186, .92, figura([POSES.profe, POSES.profe2], { dur: 1.3, profe: true }), true);
+    const burbuja = `<g><rect x="196" y="4" width="112" height="30" rx="10" fill="${BL}"/><path d="M250 33 l6 8 l6 -8z" fill="${BL}"/>${txt(252, 25, "¡RODILLAS!", 17, "#000")}` +
+      `<animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.15;.8;1" dur="2.6s" repeatCount="indefinite"/></g>`;
+    return lienzo(piso(186) + usuario + profe + burbuja + etiqueta(14, 12, "DURANTE", "ojo"), "Corrección de rodillas durante la sentadilla");
+  }
+
+  function escPerformance() {
+    const brillo = `<ellipse cx="101" cy="83" rx="7" ry="14" fill="${AM}" opacity=".2"><animate attributeName="opacity" values=".1;.75;.1" keyTimes="0;.5;1" dur="2.2s" repeatCount="indefinite"/></ellipse>`;
+    const usuario = colocar(100, 186, .9, figura([POSES.curlAbajo, POSES.curlArriba], { dur: 2.2, pesa: true, puntos: ["codoA"] }));
+    const ejes = `<path d="M190 58 V170 H306" stroke="${GR2}" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+    const barras = [34, 62, 96].map((h, i) => {
+      const x = 204 + i * 32, a = (i * .12).toFixed(2), b = (i * .12 + .3).toFixed(2);
+      return `<rect x="${x}" y="170" width="22" height="0" rx="3" fill="${AM}">` +
+        `<animate attributeName="height" values="0;0;${h};${h};0" keyTimes="0;${a};${b};.88;1" dur="3.2s" repeatCount="indefinite"/>` +
+        `<animate attributeName="y" values="170;170;${170 - h};${170 - h};170" keyTimes="0;${a};${b};.88;1" dur="3.2s" repeatCount="indefinite"/></rect>`;
+    }).join("");
+    const linea = `<path d="M198 150 L234 120 L258 128 L296 70" fill="none" stroke="${OKC}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="170" stroke-dashoffset="170">` +
+      `<animate attributeName="stroke-dashoffset" values="170;170;0;0;170" keyTimes="0;.4;.65;.88;1" dur="3.2s" repeatCount="indefinite"/></path>`;
+    return lienzo(piso(186) + brillo + usuario + ejes + barras + linea + etiqueta(14, 12, "+ RESULTADO", "flecha"), "Curl de bíceps con mejor resultado muscular");
+  }
+
+  function escComplejidad() {
+    const niveles = [
+      { cx: 62, poses: [POSES.curlAbajo, POSES.curlArriba], puntos: ["codoA"], pesa: true },
+      { cx: 160, poses: [POSES.sentArriba, POSES.sentAbajo], puntos: ["cadera", "rodA"] },
+      { cx: 258, poses: [POSES.empujeAbajo, POSES.empujeArriba], puntos: ["cadera", "rodA", "cuello", "codoA"] }
+    ];
+    let s = piso(150);
+    niveles.forEach((n, i) => {
+      s += colocar(n.cx, 150, .58, figura(n.poses, { dur: 2.4, puntos: n.puntos, pesa: n.pesa }));
+      for (let k = 0; k < 3; k++) {
+        const h = 7 + k * 6;
+        s += `<rect x="${n.cx - 19 + k * 14}" y="${188 - h}" width="10" height="${h}" rx="2" fill="${k <= i ? AM : "#333"}"/>`;
+      }
+    });
+    s += txt(111, 112, "›", 34, GR2) + txt(209, 112, "›", 34, GR2);
+    return lienzo(s + etiqueta(14, 8, "DIFICULTAD", "nivel"), "Tres ejercicios de menor a mayor complejidad");
+  }
+
+  // ---------- PAIS ----------
+  function escPAIS() {
+    const letras = ["P", "A", "I", "S"], iconos = ["tel", "corazon", "pista", "ojo"];
+    let s = "";
+    letras.forEach((l, i) => {
+      const x = 52 + i * 72, a = i * .22;
+      s += `<g transform="translate(${x} 74)"><g><animateTransform attributeName="transform" type="scale" values="1;1;1.16;1;1" keyTimes="0;${a.toFixed(2)};${(a + .08).toFixed(2)};${(a + .18).toFixed(2)};1" dur="4s" repeatCount="indefinite"/>` +
+        `<polygon points="${hexPts(0, 0, 32)}" fill="${AM}"/>${txt(0, 12, l, 34, "#000")}</g></g>` + ico(iconos[i], x, 138, 1.1, AM);
+    });
+    s += txt(160, 184, "EXPERIENCIA DEL ENTRENO", 15, "#9A9A9A", "middle", 'letter-spacing="1.5"');
+    return lienzo(s, "Las cuatro letras de PAIS");
+  }
+
+  function escPaisP() {
+    const tel = `<rect x="38" y="44" width="66" height="118" rx="12" fill="#1A1A1A" stroke="${AM}" stroke-width="4"/>` +
+      `<rect x="50" y="62" width="42" height="9" rx="3" fill="${AM}"/>` +
+      [80, 94, 108, 122].map((y, i) => `<rect x="50" y="${y}" width="${[42, 30, 38, 24][i]}" height="6" rx="3" fill="#3A3A3A"/>`).join("") +
+      `<line x1="62" y1="150" x2="80" y2="150" stroke="#555" stroke-width="3" stroke-linecap="round"/>`;
+    const camino = `<path d="M106 100 Q152 34 196 100" fill="none" stroke="${GR2}" stroke-width="2" stroke-dasharray="4 6"/>`;
+    const paquete = `<g opacity="0"><rect x="-11" y="-8" width="22" height="16" rx="3" fill="${AM}"/><line x1="-6" y1="-2" x2="6" y2="-2" stroke="#000" stroke-width="2"/><line x1="-6" y1="3" x2="3" y2="3" stroke="#000" stroke-width="2"/>` +
+      `<animateMotion path="M106 100 Q152 34 196 100" keyPoints="0;0;1;1" keyTimes="0;.1;.48;1" calcMode="linear" dur="3s" repeatCount="indefinite"/>` +
+      `<animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;.1;.45;.5;1" dur="3s" repeatCount="indefinite"/></g>`;
+    const perfil = `<rect x="198" y="44" width="106" height="118" rx="12" fill="#1A1A1A" stroke="${GR}" stroke-width="3"><animate attributeName="stroke" values="${GR};${GR};${AM};${AM};${GR}" keyTimes="0;.46;.5;.85;1" dur="3s" repeatCount="indefinite"/></rect>` +
+      `<circle cx="251" cy="82" r="16" fill="${BL}"/><path d="M225 126 Q251 92 277 126 Z" fill="${BL}"/>` + txt(251, 150, "PERFIL", 16, AM, "middle", 'letter-spacing="1"');
+    return lienzo(tel + camino + paquete + perfil + etiqueta(14, 8, "TECNOLOGÍA", "tel"), "La rutina llega del teléfono al perfil de la persona");
+  }
+
+  function escPaisA() {
+    const usuario = colocar(242, 186, .85, figura([POSES.pie], {}), true);
+    const caminando = `<g opacity="0"><animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;.05;.44;.45;1" dur="4s" repeatCount="indefinite"/>` +
+      `<animateTransform attributeName="transform" type="translate" values="0 0;92 0;92 0" keyTimes="0;.45;1" dur="4s" repeatCount="indefinite"/>` +
+      colocar(64, 186, .85, figura([POSES.caminar1, POSES.caminar2], { dur: .8, profe: true })) + `</g>`;
+    const quieto = `<g opacity="0"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.45;.46;.92;1" dur="4s" repeatCount="indefinite"/>` +
+      colocar(156, 186, .85, figura([POSES.profe], { profe: true })) + `</g>`;
+    const corazon = `<g transform="translate(200 46)"><g color="${AM}" opacity="0">${ICONOS.corazon}` +
+      `<animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.46;.52;.88;1" dur="4s" repeatCount="indefinite"/>` +
+      `<animateTransform attributeName="transform" type="scale" values="1;1;2;1.6;1.6" keyTimes="0;.46;.54;.6;1" dur="4s" repeatCount="indefinite"/></g></g>`;
+    return lienzo(piso(186) + usuario + caminando + quieto + corazon + etiqueta(14, 8, "MOMENTO CLAVE", "corazon"), "El profesor se acerca al usuario y nace la fidelización");
+  }
+
+  const pistaBase = `<rect x="14" y="44" width="292" height="148" rx="14" fill="#151515" stroke="#2C2C2C" stroke-width="2"/>` +
+    [[30, 62], [30, 104], [30, 146], [118, 60], [200, 60], [262, 104], [262, 146]].map(([x, y]) => `<rect x="${x}" y="${y}" width="32" height="18" rx="4" fill="#2C2C2C"/>`).join("");
+
+  function escPaisI() {
+    const usuarios = [[96, 92], [150, 152], [190, 100], [100, 170], [244, 76]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="6" fill="${BL}"/>`).join("") +
+      `<circle cx="238" cy="150" r="6" fill="${BL}"/>`;
+    const alerta = `<g opacity="1"><circle cx="252" cy="136" r="9" fill="${MALC}"/>${txt(252, 142, "!", 15, "#000")}` +
+      `<animate attributeName="opacity" values="1;1;0;0;1" keyTimes="0;.45;.5;.95;1" dur="4.4s" repeatCount="indefinite"/></g>`;
+    const ok = `<g opacity="0"><circle cx="252" cy="136" r="9" fill="${OKC}"/><path d="M247 136 l3.5 3.5 l6 -7" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>` +
+      `<animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.48;.54;.9;1" dur="4.4s" repeatCount="indefinite"/></g>`;
+    const profe = `<g><circle r="10" fill="${AM}"/><circle r="10" fill="none" stroke="${AM}" stroke-width="2"><animate attributeName="r" values="10;20" dur="1.1s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="1.1s" repeatCount="indefinite"/></circle>` +
+      `<animateMotion path="M70 124 C110 190 170 96 222 150" keyPoints="0;1;1;0" keyTimes="0;.45;.85;1" calcMode="linear" dur="4.4s" repeatCount="indefinite"/></g>`;
+    return lienzo(pistaBase + usuarios + alerta + ok + profe + etiqueta(14, 8, "PISTA", "pista"), "El profesor recorre la pista e interviene donde hace falta");
+  }
+
+  function escPaisS() {
+    const cx = 160, cy = 120, dur = 5;
+    const usuarios = [[96, 80], [214, 74], [240, 150], [92, 160], [150, 176], [210, 112], [120, 116], [262, 92]].map(([x, y]) => {
+      const ang = (Math.atan2(x - cx, -(y - cy)) * 180 / Math.PI + 360) % 360;
+      const ini = (ang / 360 * dur).toFixed(2);
+      return `<circle cx="${x}" cy="${y}" r="6" fill="${BL}"><animate attributeName="fill" values="${AM};${AM};${BL};${BL}" keyTimes="0;.15;.3;1" begin="${ini}s" dur="${dur}s" repeatCount="indefinite"/></circle>`;
+    }).join("");
+    const cono = `<path d="M${cx} ${cy} L${cx - 36} ${cy - 62} Q${cx} ${cy - 80} ${cx + 36} ${cy - 62} Z" fill="${AM}" opacity=".2">` +
+      `<animateTransform attributeName="transform" type="rotate" values="0 ${cx} ${cy};360 ${cx} ${cy}" dur="${dur}s" repeatCount="indefinite"/></path>`;
+    const profe = `<circle cx="${cx}" cy="${cy}" r="10" fill="${AM}"/><circle cx="${cx}" cy="${cy}" r="10" fill="none" stroke="${AM}" stroke-width="2"><animate attributeName="r" values="10;24" dur="1.3s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="1.3s" repeatCount="indefinite"/></circle>`;
+    return lienzo(pistaBase + cono + usuarios + profe + etiqueta(14, 8, "POSICIÓN", "ojo"), "El profesor en un punto estratégico ve y es visto por todos");
+  }
+
+  // ---------- PPP ----------
+  function escPPP() {
+    let s = `<line x1="107" y1="40" x2="107" y2="168" stroke="#222" stroke-width="2"/><line x1="213" y1="40" x2="213" y2="168" stroke="#222" stroke-width="2"/>`;
+    s += ico("matraz", 55, 100, 3, AM);
+    [0, 1, 2].forEach(i => {
+      s += `<circle cx="${50 + i * 5}" cy="118" r="${3 + i}" fill="${AM}" opacity="0"><animate attributeName="cy" values="118;68" dur="2.4s" begin="${i * .8}s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;.9;0" dur="2.4s" begin="${i * .8}s" repeatCount="indefinite"/></circle>`;
+    });
+    [[116, 128, 22, "1"], [146, 108, 42, "2"], [176, 88, 62, "3"]].forEach(([x, y, h, n]) => {
+      s += `<rect x="${x}" y="${y}" width="30" height="${h}" rx="3" fill="#2A2A2A"/><rect x="${x}" y="${y}" width="30" height="4" rx="2" fill="${AM}"/>` + txt(x + 15, 146, n, 16, "#777");
+    });
+    s += `<circle r="8" fill="${BL}" cx="131" cy="118"><animate attributeName="cx" values="131;161;191;191;131" keyTimes="0;.3;.6;.9;1" calcMode="spline" keySplines="${spl(4)}" dur="3.6s" repeatCount="indefinite"/>` +
+      `<animate attributeName="cy" values="118;98;78;78;118" keyTimes="0;.3;.6;.9;1" calcMode="spline" keySplines="${spl(4)}" dur="3.6s" repeatCount="indefinite"/></circle>`;
+    [[228, 74], [270, 74], [228, 116], [270, 116]].forEach(([x, y]) => {
+      s += `<rect x="${x}" y="${y}" width="30" height="18" rx="4" fill="#2C2C2C"/><circle cx="${x + 15}" cy="${y + 30}" r="5" fill="${BL}"/>`;
+    });
+    s += `<circle cx="296" cy="56" r="11" fill="${OKC}"/><path d="M290 56 l4 4 l7 -8" fill="none" stroke="#000" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>`;
+    s += txt(55, 186, "CIENCIA", 15, AM, "middle", 'letter-spacing="1"') + txt(160, 186, "NIVELES", 15, AM, "middle", 'letter-spacing="1"') + txt(265, 186, "SIN SATURACIÓN", 15, AM, "middle", 'letter-spacing=".5"');
+    return lienzo(s, "Ciencia, niveles de los usuarios y sin saturación");
+  }
+
+  // ---------- PRIME ----------
+  function escPRIME() {
+    const letras = ["P", "R", "I", "M", "E"], iconos = ["registro", "cara", "info", "rayo", "corazon"];
+    let s = `<line x1="36" y1="172" x2="284" y2="172" stroke="#333" stroke-width="4" stroke-linecap="round"/>`;
+    letras.forEach((l, i) => {
+      const x = 36 + i * 62, a = i * .18;
+      s += `<g transform="translate(${x} 70)"><g><animateTransform attributeName="transform" type="scale" values="1;1;1.18;1;1" keyTimes="0;${a.toFixed(2)};${(a + .06).toFixed(2)};${(a + .15).toFixed(2)};1" dur="5s" repeatCount="indefinite"/>` +
+        `<polygon points="${hexPts(0, 0, 27)}" fill="${AM}"/>${txt(0, 10, l, 30, "#000")}</g></g>` + ico(iconos[i], x, 126, 1.05, BL);
+    });
+    s += `<circle cx="36" cy="172" r="7" fill="${AM}"><animate attributeName="cx" values="36;98;160;222;284;284" keyTimes="0;.18;.36;.54;.72;1" dur="5s" repeatCount="indefinite"/></circle>`;
+    return lienzo(s, "Las cinco letras de PRIME");
+  }
+
+  function escCheckout() {
+    let s = `<rect x="34" y="20" width="96" height="164" rx="14" fill="#1A1A1A" stroke="${AM}" stroke-width="4"/>` + txt(82, 56, "NPS", 22, AM);
+    for (let i = 0; i <= 10; i++) {
+      const fila = i < 6 ? 0 : 1, col = i < 6 ? i : i - 6;
+      s += `<rect x="${46 + col * 12 + (fila ? 6 : 0)}" y="${70 + fila * 16}" width="10" height="12" rx="2" fill="#333"/>`;
+    }
+    s += `<circle cx="82" cy="138" r="18" fill="${OKC}"><animate attributeName="r" values="16;19;16" dur="1.6s" repeatCount="indefinite"/></circle>` +
+      `<path d="M74 138 l6 6 l11 -12" fill="none" stroke="#000" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>`;
+    s += `<rect x="148" y="34" width="160" height="50" rx="14" fill="${BL}"/><path d="M160 84 l-8 12 l18 -12z" fill="${BL}"/>` + txt(228, 67, "¿ME DAS UN 10?", 20, "#000");
+    s += [["152", "38", "304", "80"], ["304", "38", "152", "80"]].map(([x1, y1, x2, y2], i) =>
+      `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${MALC}" stroke-width="6" stroke-linecap="round" stroke-dasharray="162" stroke-dashoffset="162">` +
+      `<animate attributeName="stroke-dashoffset" values="162;162;0;0;162" keyTimes="0;${(.1 + i * .15).toFixed(2)};${(.25 + i * .15).toFixed(2)};.88;1" dur="3.6s" repeatCount="indefinite"/></line>`).join("");
+    s += `<rect x="148" y="118" width="160" height="42" rx="12" fill="rgba(34,197,94,.14)" stroke="${OKC}" stroke-width="2"/>` + txt(228, 145, "COMPARTE LA ENCUESTA", 15, OKC);
+    return lienzo(s, "Compartir la encuesta NPS sin pedir calificación");
+  }
+
+  // ---------- Flujo de intervención ----------
+  function escFlujo(activo = -1) {
+    const xs = [46, 120, 200, 274], y = 82, iconos = ["ojo", "chat", "foco", "registro"];
+    const palabras = ["OBSERVACIÓN", "INTERACCIÓN", "RECOMENDACIÓN", "REGISTRO"];
+    let s = `<line x1="46" y1="${y}" x2="274" y2="${y}" stroke="#333" stroke-width="4"/>` +
+      `<line x1="46" y1="${y}" x2="46" y2="${y}" stroke="${AM}" stroke-width="4"><animate attributeName="x2" values="46;274;274" keyTimes="0;.75;1" dur="4s" repeatCount="indefinite"/></line>`;
+    xs.forEach((x, i) => {
+      const t = i * .25;
+      s += `<circle cx="${x}" cy="${y}" r="27" fill="#1A1A1A" stroke="#444" stroke-width="3"/>` +
+        `<circle cx="${x}" cy="${y}" r="27" fill="none" stroke="${AM}" stroke-width="4" opacity="0"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;${t.toFixed(2)};${(t + .03).toFixed(2)};.92;1" dur="4s" repeatCount="indefinite"/></circle>` +
+        ico(iconos[i], x, y, 1.05, AM) + txt(x, 132, "0" + (i + 1), 17, "#8A8A8A") +
+        `<g class="solo-despues">${txt(x, 152, palabras[i], 12, AM, "middle", 'letter-spacing=".3"')}</g>`;
+    });
+    if (activo >= 0) {
+      s += `<circle cx="${xs[activo]}" cy="${y}" r="28" fill="none" stroke="${AM}" stroke-width="3"><animate attributeName="r" values="28;44" dur="1.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0" dur="1.2s" repeatCount="indefinite"/></circle>`;
+    }
+    s += txt(160, 186, "CONECTAMOS · ORIENTAMOS · RESOLVEMOS · MEJORAMOS", 11.5, "#8A8A8A", "middle", 'letter-spacing=".6"');
+    return lienzo(s, "Los cuatro pasos del flujo de intervención");
+  }
+
+  // ---------- Metas (el número aparece al responder) ----------
+  const numero = (valor, y = 190, tam = 44) =>
+    `<g class="solo-antes">${txt(160, y, "?", tam, AM)}</g><g class="solo-despues">${txt(160, y, valor, tam, AM)}</g>`;
+
+  function escNPS() {
+    const cx = 160, cy = 138, r = 96;
+    const p = g => [(cx - r * Math.cos(g * Math.PI / 180)).toFixed(1), (cy - r * Math.sin(g * Math.PI / 180)).toFixed(1)];
+    const arco = (a, b, col) => { const [x1, y1] = p(a), [x2, y2] = p(b); return `<path d="M${x1} ${y1} A${r} ${r} 0 0 1 ${x2} ${y2}" fill="none" stroke="${col}" stroke-width="16"/>`; };
+    let s = arco(0, 106, MALC) + arco(110, 142, AM) + arco(146, 180, OKC);
+    s += txt(cx - r, cy + 22, "0", 14, "#777") + txt(cx + r, cy + 22, "100", 14, "#777");
+    const aguja = `<line x1="${cx}" y1="${cy}" x2="${cx}" y2="${cy - 76}" stroke="${BL}" stroke-width="5" stroke-linecap="round"/>`;
+    s += `<g class="solo-antes"><g>${aguja}<animateTransform attributeName="transform" type="rotate" values="-70 ${cx} ${cy};45 ${cx} ${cy};-15 ${cx} ${cy};62 ${cx} ${cy};-70 ${cx} ${cy}" keyTimes="0;.3;.5;.75;1" calcMode="spline" keySplines="${spl(4)}" dur="4.5s" repeatCount="indefinite"/></g></g>`;
+    s += `<g class="solo-despues"><g class="aguja-fin" style="transform-origin:${cx}px ${cy}px; transform: rotate(55deg)">${aguja}</g></g>`;
+    s += `<circle cx="${cx}" cy="${cy}" r="9" fill="${AM}"/>` + numero("80.57", 194, 40);
+    return lienzo(s, "Medidor de NPS");
+  }
+
+  function escActivos() {
+    let s = "";
+    for (let f = 0; f < 3; f++) for (let c = 0; c < 12; c++) {
+      const x = 30 + c * 23.6, y = 42 + f * 34, n = f * 12 + c;
+      s += `<g fill="${GR}"><circle cx="${x.toFixed(1)}" cy="${y - 8}" r="4.4"/><path d="M${(x - 7).toFixed(1)} ${y + 9} Q${x.toFixed(1)} ${y - 6} ${(x + 7).toFixed(1)} ${y + 9} Z"/>` +
+        `<animate attributeName="fill" values="${GR};${AM};${AM};${GR}" keyTimes="0;.12;.8;1" begin="${(n * .06).toFixed(2)}s" dur="4s" repeatCount="indefinite"/></g>`;
+    }
+    return lienzo(s + numero("1.600", 186, 46), "Usuarios activos de la sede");
+  }
+
+  function escFacturacion() {
+    let s = `<line x1="26" y1="141" x2="296" y2="141" stroke="#333" stroke-width="2"/>`;
+    [28, 44, 38, 60, 54, 78, 98].forEach((h, i) => {
+      const x = 36 + i * 38, a = (i * .06).toFixed(2), b = (i * .06 + .25).toFixed(2);
+      s += `<rect x="${x}" y="140" width="24" height="0" rx="3" fill="${i === 6 ? AM : "#4A4A4A"}">` +
+        `<animate attributeName="height" values="0;0;${h};${h};0" keyTimes="0;${a};${b};.9;1" dur="4s" repeatCount="indefinite"/>` +
+        `<animate attributeName="y" values="140;140;${140 - h};${140 - h};140" keyTimes="0;${a};${b};.9;1" dur="4s" repeatCount="indefinite"/></rect>`;
+    });
+    return lienzo(s + numero("43.588", 188, 44), "Facturación del mes");
+  }
+
+  function escAnillo(pct, icono) {
+    const C = 439.82;
+    let s = `<circle cx="160" cy="100" r="70" fill="none" stroke="#2A2A2A" stroke-width="16"/>`;
+    s += `<g class="solo-antes"><circle cx="160" cy="100" r="70" fill="none" stroke="${AM}" stroke-width="16" stroke-linecap="round" stroke-dasharray="80 360"><animateTransform attributeName="transform" type="rotate" values="0 160 100;360 160 100" dur="1.6s" repeatCount="indefinite"/></circle></g>`;
+    s += `<g class="solo-despues"><circle class="arco-fin" cx="160" cy="100" r="70" fill="none" stroke="${AM}" stroke-width="16" stroke-linecap="round" stroke-dasharray="${C}" style="stroke-dashoffset:${(C * (1 - pct / 100)).toFixed(2)}" transform="rotate(-90 160 100)"/></g>`;
+    s += ico(icono, 160, 76, 1.3, AM) + numero(pct + "%", 126, 38);
+    return lienzo(s, "Meta técnica en porcentaje");
+  }
+
+  const ESCENAS = {
+    atp: () => ({ svg: escATP(), ancla: "<b>ATP = Abordaje Técnico de PAIS.</b> El profesor es el protagonista." }),
+    ajuste: () => ({ svg: escAjuste(), ancla: "<b>Ajuste = ANTES:</b> máquina, banco y articulaciones en posición." }),
+    atencion: () => ({ svg: escAtencion(), ancla: "<b>Puntos de atención = DURANTE:</b> corregir el movimiento de las articulaciones." }),
+    performance: () => ({ svg: escPerformance(), ancla: "<b>Performance:</b> optimizar el ejercicio para un mejor resultado en el músculo." }),
+    complejidad: () => ({ svg: escComplejidad(), ancla: "<b>Grado de complejidad = la dificultad:</b> más articulaciones, más difícil." }),
+    pais: () => ({ svg: escPAIS(), ancla: "<b>PAIS:</b> Prescripción · Abordaje · Intervención · Sectorización, para la experiencia del entreno." }),
+    paisP: () => ({ svg: escPaisP(), ancla: "<b>P · Prescripción:</b> por perfil de persona, con tecnología como forma de entrega." }),
+    paisA: () => ({ svg: escPaisA(), ancla: "<b>A · Abordaje:</b> el momento de mayor impacto para retener y fidelizar." }),
+    paisI: () => ({ svg: escPaisI(), ancla: "<b>I · Intervención:</b> gestión de pista e intervención en la experiencia." }),
+    paisS: () => ({ svg: escPaisS(), ancla: "<b>S · Sectorización:</b> posicionarse para observar y ser visto por más usuarios." }),
+    ppp: () => ({ svg: escPPP(), ancla: "<b>PPP:</b> ciencia + niveles de los usuarios + ayudar a la operación sin saturación." }),
+    prime: () => ({ svg: escPRIME(), ancla: "<b>PRIME:</b> Preparar · Recibir · Instruir · Motivar · Empatizar." }),
+    checkout: () => ({ svg: escCheckout(), ancla: "<b>Check out:</b> compartir la encuesta NPS, sin pedir calificación." }),
+    flujo: activo => ({ svg: escFlujo(activo), ancla: "<b>Flujo:</b> Observación → Interacción → Recomendación → Registro." }),
+    nps: () => ({ svg: escNPS(), ancla: "Meta de NPS trimestral: <b>80.57</b>" }),
+    activos: () => ({ svg: escActivos(), ancla: "Meta de usuarios activos para noviembre: <b>1.600</b>" }),
+    facturacion: () => ({ svg: escFacturacion(), ancla: "Meta de facturación para noviembre: <b>43.588</b>" }),
+    anillo: (pct, icono, ancla = "") => ({ svg: escAnillo(pct, icono), ancla })
+  };
+
+  function crearEscena(v) {
+    const [clave, ...args] = Array.isArray(v) ? v : [v];
+    return ESCENAS[clave](...args);
+  }
+
+  const REDUCIR_MOVIMIENTO = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function pintarEscena(contenedor, v) {
+    const e = crearEscena(v);
+    contenedor.innerHTML = e.svg;
+    if (REDUCIR_MOVIMIENTO) contenedor.querySelectorAll("svg").forEach(s => s.pauseAnimations && s.pauseAnimations());
+    return e;
+  }
+
+  // =====================================================================
+  //  PREGUNTAS
+  //  s = tema, q = pregunta, ok = correcta, mal = incorrectas, dato = refuerzo, v = escena
+  // =====================================================================
   const DEF_PAIS = {
     P: "Prescripción por “perfil de persona” con tecnología como forma de entrega.",
     A: "Momento de mayor impacto para la retención y fidelización.",
@@ -477,28 +951,32 @@
 
   const PREGUNTAS = [
     // ---------- Metas de la sede ----------
-    { s: "Metas de la sede", q: "¿Cuál es la meta de NPS trimestral de la sede?",
+    { s: "Metas de la sede", v: "nps", q: "¿Cuál es la meta de NPS trimestral de la sede?",
       ok: "80.57", mal: ["75.80", "85.70", "78.57"] },
-    { s: "Metas de la sede", q: "¿Cuál es la meta de usuarios activos para noviembre?",
+    { s: "Metas de la sede", v: "activos", q: "¿Cuál es la meta de usuarios activos para noviembre?",
       ok: "1.600", mal: ["1.200", "1.450", "1.800"] },
-    { s: "Metas de la sede", q: "¿Cuál es la meta de facturación para noviembre?",
+    { s: "Metas de la sede", v: "facturacion", q: "¿Cuál es la meta de facturación para noviembre?",
       ok: "43.588", mal: ["38.450", "45.885", "41.300"] },
 
     // ---------- Metas técnicas ----------
-    { s: "Metas técnicas", q: "Meta técnica de acceso a la app: ¿qué porcentaje de las ventas semanales debe descargar la app?",
+    { s: "Metas técnicas", v: ["anillo", 80, "descarga", "Acceso a la app: <b>80%</b> de las ventas semanales descarga la app."],
+      q: "Meta técnica de acceso a la app: ¿qué porcentaje de las ventas semanales debe descargar la app?",
       ok: "80%", mal: ["50%", "70%", "90%"] },
-    { s: "Metas técnicas", q: "Meta técnica: ¿cuál es la meta de rutinas enviadas vs. activos del mes?",
+    { s: "Metas técnicas", v: ["anillo", 20, "avion", "Rutinas enviadas vs. activos del mes: <b>20%</b>."],
+      q: "Meta técnica: ¿cuál es la meta de rutinas enviadas vs. activos del mes?",
       ok: "20%", mal: ["10%", "30%", "50%"] },
-    { s: "Metas técnicas", q: "Meta técnica: ¿cuál es la meta de aforo de productos?",
+    { s: "Metas técnicas", v: ["anillo", 70, "grupo", "Aforo de productos: <b>70%</b>."],
+      q: "Meta técnica: ¿cuál es la meta de aforo de productos?",
       ok: "70%", mal: ["50%", "80%", "90%"] },
-    { s: "Metas técnicas", q: "Meta técnica: ¿cuál es la meta de PPP?",
+    { s: "Metas técnicas", v: ["anillo", 90, "diana", "Meta de PPP: <b>90%</b>."],
+      q: "Meta técnica: ¿cuál es la meta de PPP?",
       ok: "90%", mal: ["70%", "80%", "100%"] },
 
     // ---------- PPP ----------
-    { s: "PPP", q: "¿Qué significa PPP?",
+    { s: "PPP", v: "ppp", q: "¿Qué significa PPP?",
       ok: "Premisas de Prescripción de PAIS",
       mal: ["Plan de Prescripción Personal", "Protocolo de Prescripción y Performance", "Programa de Prescripción por Perfil"] },
-    { s: "PPP", q: "¿Qué son las Premisas de Prescripción de PAIS?",
+    { s: "PPP", v: "ppp", q: "¿Qué son las Premisas de Prescripción de PAIS?",
       ok: "Estrategia de prescripción basada en investigaciones científicas, adecuada a los niveles de los usuarios, creada también para ayudar a la operación, para no generar saturación.",
       mal: [
         "Estrategia de ventas basada en promociones mensuales, adecuada a los planes de los usuarios, creada para aumentar la facturación de la sede.",
@@ -508,26 +986,26 @@
       dato: "Palabras clave: investigaciones científicas · niveles de los usuarios · ayudar a la operación · no generar saturación." },
 
     // ---------- PAIS ----------
-    { s: "PAIS", q: "¿Qué es PAIS?",
+    { s: "PAIS", v: "pais", q: "¿Qué es PAIS?",
       ok: "Estrategia para impactar en los principales puntos de la experiencia del entreno en Smart Fit.",
       mal: [
         "Sistema para registrar la asistencia y el horario de los usuarios en la sede.",
         "Programa de promociones para aumentar los usuarios activos del mes.",
         "Manual de limpieza y mantenimiento de las máquinas de la pista."
       ] },
-    { s: "PAIS", q: "¿Qué significa P.A.I.S.?",
+    { s: "PAIS", v: "pais", q: "¿Qué significa P.A.I.S.?",
       ok: "Prescripción · Abordaje · Intervención · Sectorización",
       mal: ["Planificación · Atención · Instrucción · Seguimiento", "Prescripción · Asistencia · Interacción · Servicio", "Perfil · Ajuste · Intensidad · Series"] },
-    { s: "PAIS", q: "La P de PAIS es Prescripción. ¿Qué es?", ok: DEF_PAIS.P, mal: sin(DEF_PAIS, "P") },
-    { s: "PAIS", q: "La A de PAIS es Abordaje. ¿Qué es?", ok: DEF_PAIS.A, mal: sin(DEF_PAIS, "A") },
-    { s: "PAIS", q: "La I de PAIS es Intervención. ¿Qué es?", ok: DEF_PAIS.I, mal: sin(DEF_PAIS, "I") },
-    { s: "PAIS", q: "La S de PAIS es Sectorización. ¿Qué es?", ok: DEF_PAIS.S, mal: sin(DEF_PAIS, "S") },
+    { s: "PAIS", v: "paisP", q: "La P de PAIS es Prescripción. ¿Qué es?", ok: DEF_PAIS.P, mal: sin(DEF_PAIS, "P") },
+    { s: "PAIS", v: "paisA", q: "La A de PAIS es Abordaje. ¿Qué es?", ok: DEF_PAIS.A, mal: sin(DEF_PAIS, "A") },
+    { s: "PAIS", v: "paisI", q: "La I de PAIS es Intervención. ¿Qué es?", ok: DEF_PAIS.I, mal: sin(DEF_PAIS, "I") },
+    { s: "PAIS", v: "paisS", q: "La S de PAIS es Sectorización. ¿Qué es?", ok: DEF_PAIS.S, mal: sin(DEF_PAIS, "S") },
 
     // ---------- ATP ----------
-    { s: "ATP", q: "¿Qué significa ATP?",
+    { s: "ATP", v: "atp", q: "¿Qué significa ATP?",
       ok: "Abordaje Técnico de PAIS",
       mal: ["Atención Total al Profesor", "Asistencia Técnica Personalizada", "Ajuste, Técnica y Performance"] },
-    { s: "ATP", q: "¿Qué es ATP?",
+    { s: "ATP", v: "atp", q: "¿Qué es ATP?",
       ok: "Método técnico/operativo que tiene como objetivo mejorar la experiencia del usuario a través de un abordaje técnico, teniendo al profesor como protagonista.",
       mal: [
         "Método comercial que tiene como objetivo vender más planes a través de promociones, teniendo al recepcionista como protagonista.",
@@ -535,51 +1013,51 @@
         "Método de mantenimiento que tiene como objetivo cuidar las máquinas a través de revisiones, teniendo al usuario como protagonista."
       ],
       dato: "Palabras clave: técnico/operativo · experiencia del usuario · abordaje técnico · profesor como protagonista." },
-    { s: "ATP", q: "¿Cuáles son los 4 puntos de apoyo de ATP?",
+    { s: "ATP", v: "atp", q: "¿Cuáles son los 4 puntos de apoyo de ATP?",
       ok: "Ajuste · Puntos de atención · Performance · Grado de complejidad",
       mal: ["Ajuste · Repeticiones · Intervalo · Series", "Observación · Interacción · Recomendación · Registro", "Preparar · Recibir · Instruir · Motivar"] },
-    { s: "ATP", q: "En ATP, ¿qué es el Ajuste?", ok: DEF_ATP.ajuste, mal: sin(DEF_ATP, "ajuste") },
-    { s: "ATP", q: "En ATP, ¿qué son los Puntos de atención?", ok: DEF_ATP.atencion, mal: sin(DEF_ATP, "atencion") },
-    { s: "ATP", q: "En ATP, ¿qué es la Performance?", ok: DEF_ATP.performance, mal: sin(DEF_ATP, "performance") },
-    { s: "ATP", q: "En ATP, ¿qué es el Grado de complejidad?", ok: DEF_ATP.complejidad, mal: sin(DEF_ATP, "complejidad") },
-    { s: "ATP", q: "Antes de que el usuario empiece, le regulas la altura del asiento y el respaldo de la máquina. ¿Qué punto de ATP estás aplicando?",
+    { s: "ATP", v: "ajuste", q: "En ATP, ¿qué es el Ajuste?", ok: DEF_ATP.ajuste, mal: sin(DEF_ATP, "ajuste") },
+    { s: "ATP", v: "atencion", q: "En ATP, ¿qué son los Puntos de atención?", ok: DEF_ATP.atencion, mal: sin(DEF_ATP, "atencion") },
+    { s: "ATP", v: "performance", q: "En ATP, ¿qué es la Performance?", ok: DEF_ATP.performance, mal: sin(DEF_ATP, "performance") },
+    { s: "ATP", v: "complejidad", q: "En ATP, ¿qué es el Grado de complejidad?", ok: DEF_ATP.complejidad, mal: sin(DEF_ATP, "complejidad") },
+    { s: "ATP", v: "ajuste", q: "Antes de que el usuario empiece, le regulas la altura del asiento y el respaldo de la máquina. ¿Qué punto de ATP estás aplicando?",
       ok: "Ajuste", mal: ["Puntos de atención", "Performance", "Grado de complejidad"],
       dato: "Ajuste = todo lo de antes de la ejecución." },
-    { s: "ATP", q: "Durante la sentadilla, le corriges al usuario la posición de las rodillas. ¿Qué punto de ATP es?",
+    { s: "ATP", v: "atencion", q: "Durante la sentadilla, le corriges al usuario la posición de las rodillas. ¿Qué punto de ATP es?",
       ok: "Puntos de atención", mal: ["Ajuste", "Performance", "Grado de complejidad"],
       dato: "Puntos de atención = corrección durante el ejercicio." },
 
     // ---------- PRIME ----------
-    { s: "PRIME", q: "¿Qué es PRIME?",
+    { s: "PRIME", v: "prime", q: "¿Qué es PRIME?",
       ok: "Nuestra metodología para interactuar con los usuarios: recibir con amabilidad, instruir, motivar durante el proceso, encantar empatizando y mejorando su experiencia.",
       mal: [
         "Nuestro sistema para registrar las incidencias de la sede y comunicarlas al líder de sede al final del turno.",
         "Nuestro plan de entrenamiento premium para usuarios avanzados, con rutinas especiales y más series.",
         "Nuestra estrategia para cobrar a tiempo las membresías y reducir los usuarios inactivos del mes."
       ] },
-    { s: "PRIME", q: "En el Protocolo de clase, ¿qué significa PRIME?",
+    { s: "PRIME", v: "prime", q: "En el Protocolo de clase, ¿qué significa PRIME?",
       ok: "Preparar · Recibir · Instruir · Motivar · Empatizar",
       mal: ["Planificar · Revisar · Indicar · Medir · Evaluar", "Presentar · Registrar · Intervenir · Mejorar · Entrenar", "Preparar · Repetir · Intensificar · Medir · Estirar"] },
-    { s: "PRIME", q: "En el Check out de la clase, ¿cómo se divulga la encuesta de satisfacción (NPS)?",
+    { s: "PRIME", v: "checkout", q: "En el Check out de la clase, ¿cómo se divulga la encuesta de satisfacción (NPS)?",
       ok: "Se divulga la encuesta, pero sin pedir calificación.",
       mal: ["Se le pide a cada usuario que ponga 10.", "No se menciona nunca en la clase.", "Solo se le envía a los usuarios nuevos."],
       dato: "Esto cuida nuestra meta de NPS trimestral: 80.57." },
 
     // ---------- Flujo de intervención ----------
-    { s: "Flujo de intervención", q: "¿Cuál es el orden correcto del Flujo de intervención?",
+    { s: "Flujo de intervención", v: "flujo", q: "¿Cuál es el orden correcto del Flujo de intervención?",
       ok: "Observación → Interacción → Recomendación → Registro",
       mal: ["Interacción → Observación → Registro → Recomendación", "Observación → Recomendación → Interacción → Registro", "Registro → Observación → Interacción → Recomendación"] },
-    { s: "Flujo de intervención", q: "En el Flujo de intervención, “identificar la situación” corresponde a:",
+    { s: "Flujo de intervención", v: ["flujo", 0], q: "En el Flujo de intervención, “identificar la situación” corresponde a:",
       ok: "Observación", mal: ["Interacción", "Recomendación", "Registro"],
       dato: "Observación: identificar · Interacción: establecer contacto · Recomendación: resolución · Registro: sistema y líder." },
-    { s: "Flujo de intervención", q: "¿Qué hacemos en el paso de Registro?",
+    { s: "Flujo de intervención", v: ["flujo", 3], q: "¿Qué hacemos en el paso de Registro?",
       ok: "Registrar en el sistema y comunicar al líder de sede lo ocurrido.",
       mal: ["Anotar el peso del usuario en su rutina.", "Volver a observar la pista desde otro sector.", "Pedirle al usuario que califique la atención."] }
   ];
 
   // ---------- Estado y utilidades ----------
   const $ = id => document.getElementById(id);
-  const estado = { nombre: "", i: 0, respuestas: [], respondida: false };
+  const estado = { nombre: "", i: 0, respuestas: [], respondida: false, ancla: "" };
 
   function mostrar(id) {
     document.querySelectorAll(".pantalla").forEach(p => { p.hidden = p.id !== id; });
@@ -631,6 +1109,12 @@
     $("q-barra").parentElement.setAttribute("aria-valuenow", avance);
     $("q-texto").textContent = p.q;
 
+    const escena = $("v-escena");
+    escena.classList.remove("revelado");
+    estado.ancla = pintarEscena(escena, p.v).ancla;
+    $("v-ancla").hidden = true;
+    $("v-pista").textContent = "Mira la animación";
+
     const cont = $("q-opciones");
     cont.innerHTML = "";
     mezclar([p.ok, ...p.mal]).forEach((texto, n) => {
@@ -659,6 +1143,14 @@
       if (b.dataset.correcta === "1") b.classList.add("correcta");
     });
     if (!acierto) elegido.classList.add("incorrecta");
+
+    // La animación revela su dato y se muestra la frase ancla
+    $("v-escena").classList.add("revelado");
+    if (estado.ancla) {
+      $("v-ancla").innerHTML = estado.ancla;
+      $("v-ancla").hidden = false;
+    }
+    $("v-pista").textContent = "Recuérdalo así";
 
     const fb = $("q-feedback");
     fb.innerHTML = "";
@@ -754,6 +1246,12 @@
     if (reforzar.length) texto += `\nA reforzar: ${reforzar.join(", ")}`;
     window.open("https://wa.me/?text=" + encodeURIComponent(texto), "_blank", "noopener");
   }
+
+  // ---------- Escenas del inicio y del repaso ----------
+  document.querySelectorAll("[data-esc]").forEach(c => {
+    const d = c.dataset.esc;
+    pintarEscena(c, d.startsWith("[") ? JSON.parse(d) : d);
+  });
 
   // ---------- Eventos ----------
   $("total-preguntas").textContent = PREGUNTAS.length;
